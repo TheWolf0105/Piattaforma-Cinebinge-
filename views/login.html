@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/css/auth.css">
+    <title>CineBinge - Login</title>
+  </head>
+  <body class="bg-black text-white min-h-screen flex flex-col auth-body">
+    <header class="bg-gradient-to-b from-black to-transparent fixed w-full z-50 top-0 left-0">
+      <div class="container mx-auto px-4 py-6 flex justify-between items-center">
+        <a href="/">
+          <img class="w-32" src="/logo.png" alt="CineBinge" />
+        </a>
+        <div class="flex gap-4">
+          <a href="/" class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors">
+            Home
+          </a>
+          <a href="/register" class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors">
+            Registrati
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Login Section -->
+    <section class="min-h-screen flex flex-col bg-cover bg-center bg-no-repeat relative" 
+             style="background-image: url('/sfondo.png'); background-attachment: fixed;">
+      <!-- Overlay gradients  -->
+      <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/70 to-black/80"></div>
+      <div class="absolute inset-0 bg-gradient-to-r from-red-900/20 via-transparent to-blue-900/20"></div>
+      
+      <!-- Particelle animate di sfondo -->
+      <div class="absolute inset-0 z-10">
+        <div class="particles">
+          <div class="particle"></div>
+          <div class="particle"></div>
+          <div class="particle"></div>
+          <div class="particle"></div>
+        </div>
+      </div>
+      
+      <main class="flex-1 flex flex-col justify-center items-center relative z-20 px-4 pt-24 pb-16">
+        <!-- Icona cinematografica animata -->
+        <div class="mb-8 animate-float">
+          <div class="w-20 h-20 mx-auto mb-4 relative">
+            <svg class="w-full h-full text-red-500 icon-float" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M18 4l2 4h-3l-2-4h-2l2 4h-3l-2-4H8l2 4H7L5 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4h-4z"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="login-form p-10 rounded-2xl w-full max-w-md mx-auto animate-fade-in-up shadow-2xl">
+          <h1 class="text-white text-4xl font-bold mb-8 text-center title-glow">
+            Accedi
+          </h1>
+          
+          <!-- Status message container -->
+          <div id="loginStatus" class="hidden mb-6"></div>
+          
+          <form id="loginForm" class="flex flex-col gap-y-6">
+            <div class="relative animate-slide-in-left" style="animation-delay: 0.2s;">
+              <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"></path>
+                </svg>
+              </div>
+              <input
+                type="email"
+                name="email"
+                id="email"
+                placeholder="Il tuo indirizzo email"
+                class="login-input w-full pl-12 pr-4 py-4 rounded-xl text-white text-base placeholder-gray-400 focus:outline-none"
+                required
+              />
+            </div>
+            
+            <div class="relative animate-slide-in-left" style="animation-delay: 0.4s;">
+              <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                </svg>
+              </div>
+              <input
+                type="password"
+                name="password"
+                id="password"
+                placeholder="La tua password"
+                class="login-input w-full pl-12 pr-4 py-4 rounded-xl text-white text-base placeholder-gray-400 focus:outline-none"
+                required
+              />
+              <button type="button" class="absolute inset-y-0 right-0 pr-4 flex items-center" onclick="togglePassword()">
+                <svg id="eyeIcon" class="w-5 h-5 text-gray-400 hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                </svg>
+              </button>
+            </div>
+            
+            <button
+              type="submit"
+              class="login-button w-full py-4 rounded-xl text-white text-lg font-semibold relative overflow-hidden animate-slide-in-left"
+              style="animation-delay: 0.6s;"
+            >
+              <span class="relative z-10">Accedi al Cinema</span>
+            </button>
+          </form>
+          
+          <div class="mt-10 text-center animate-slide-in-left" style="animation-delay: 0.8s;">
+            <p class="text-gray-300 text-base mb-4">
+              Non hai ancora un account?
+            </p>
+            <a href="/register" class="register-link block text-red-400 hover:text-red-300 text-lg font-semibold tracking-wide">
+              Unisciti alla Famiglia CineBinge
+            </a>
+            <p class="text-gray-400 text-sm mt-3 italic">
+              Scopri il mondo del cinema senza limiti
+            </p>
+          </div>
+        </div>
+      </main>
+    </section>
+
+    <footer class="bg-gradient-to-t from-black to-gray-800 py-4 mt-auto relative z-20">
+      <div class="container mx-auto text-center">
+        <p class="text-gray-400 text-xs">© 2025 CineBinge. Tutti i diritti riservati.</p>
+        <div class="flex justify-center space-x-3 mt-2">
+          <a href="/about" class="text-xs text-white hover:text-red-500 transition-colors">Chi Siamo</a>
+          <a href="/about" class="text-xs text-white hover:text-red-500 transition-colors">Privacy</a>
+          <a href="/about" class="text-xs text-white hover:text-red-500 transition-colors">Termini e Condizioni</a>
+        </div>
+      </div>
+    </footer>    <script>
+      // Funzione per mostrare/nascondere la password
+      function togglePassword() {
+        const passwordInput = document.getElementById('password');
+        const eyeIcon = document.getElementById('eyeIcon');
+        
+        if (passwordInput.type === 'password') {
+          passwordInput.type = 'text';
+          eyeIcon.innerHTML = `
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21"></path>
+          `;
+        } else {
+          passwordInput.type = 'password';
+          eyeIcon.innerHTML = `
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+          `;
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', function() {
+        // Riferimenti agli elementi del DOM
+        const loginForm = document.getElementById('loginForm');
+        const loginStatus = document.getElementById('loginStatus');
+        const submitButton = loginForm.querySelector('button[type="submit"]');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        
+        // Controlla parametri URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const redirect = urlParams.get('redirect');
+        const loggedOut = urlParams.get('logout') === 'true';
+        
+        // Mostra messaggio di logout se necessario
+        if (loggedOut) {
+          showStatusMessage('Logout effettuato con successo', 'success');
+        }
+
+        // Effetti di focus migliorati per gli input
+        [emailInput, passwordInput].forEach(input => {
+          input.addEventListener('focus', function() {
+            this.parentElement.style.transform = 'scale(1.02)';
+            this.parentElement.style.transition = 'transform 0.3s ease';
+          });
+          
+          input.addEventListener('blur', function() {
+            this.parentElement.style.transform = 'scale(1)';
+          });
+        });
+
+        // Funzione per mostrare messaggi di stato
+        function showStatusMessage(message, type) {
+          loginStatus.className = `status-message px-6 py-4 rounded-xl mb-6 text-center font-medium ${type === 'success' ? 'status-success' : 'status-error'}`;
+          loginStatus.textContent = message;
+          loginStatus.classList.remove('hidden');
+          
+          // Auto-hide success messages after 3 seconds
+          if (type === 'success') {
+            setTimeout(() => {
+              loginStatus.classList.add('hidden');
+            }, 3000);
+          }
+        }
+
+        // Gestisci l'invio del form con animazioni migliorate
+        loginForm.addEventListener('submit', function(e) {
+          e.preventDefault();
+          
+          // Nascondi eventuali messaggi di errore precedenti
+          loginStatus.classList.add('hidden');
+          
+          // Salva il contenuto originale del pulsante
+          const originalButtonContent = submitButton.innerHTML;
+          
+          // Animazione di caricamento
+          submitButton.disabled = true;
+          submitButton.innerHTML = `
+            <span class="flex items-center justify-center">
+              <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              Accesso in corso...
+            </span>
+          `;
+          
+          // Ottieni i dati dal form
+          const email = emailInput.value.trim();
+          const password = passwordInput.value;
+          
+          // Validazione client-side migliorata
+          if (!email || !password) {
+            showStatusMessage('Per favore compila tutti i campi', 'error');
+            resetButton();
+            return;
+          }
+          
+          if (!isValidEmail(email)) {
+            showStatusMessage('Inserisci un indirizzo email valido', 'error');
+            resetButton();
+            return;
+          }
+          
+          // Invia la richiesta al server
+          fetch('/login', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email, password })
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              // Login riuscito - animazione di successo
+              submitButton.innerHTML = `
+                <span class="flex items-center justify-center">
+                  <svg class="w-5 h-5 mr-2 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  Accesso riuscito!
+                </span>
+              `;
+              
+              showStatusMessage('Accesso effettuato con successo! Reindirizzamento in corso...', 'success');
+              
+              // Reindirizza dopo un breve delay per mostrare il messaggio di successo
+              setTimeout(() => {
+                const redirectUrl = redirect ? decodeURIComponent(redirect) : '/dashboard';
+                window.location.replace(redirectUrl);
+              }, 1500);
+            } else {
+              // Login fallito - mostra errore
+              showStatusMessage(data.message || 'Credenziali non valide. Verifica email e password.', 'error');
+              resetButton();
+              
+              // Aggiungi effetto shake al form
+              loginForm.style.animation = 'shake 0.5s ease-in-out';
+              setTimeout(() => {
+                loginForm.style.animation = '';
+              }, 500);
+            }
+          })
+          .catch(error => {
+            console.error('Errore durante il login:', error);
+            showStatusMessage('Si è verificato un errore di connessione. Riprova più tardi.', 'error');
+            resetButton();
+          });
+        });
+
+        // Funzione per resettare il pulsante
+        function resetButton() {
+          submitButton.disabled = false;
+          submitButton.innerHTML = '<span class="relative z-10">Accedi al Cinema</span>';
+        }
+
+        // Validazione email
+        function isValidEmail(email) {
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          return emailRegex.test(email);
+        }
+
+        // Gestione tasti rapidi
+        document.addEventListener('keydown', function(e) {
+          // Enter per inviare il form se è in focus
+          if (e.key === 'Enter' && (document.activeElement === emailInput || document.activeElement === passwordInput)) {
+            e.preventDefault();
+            loginForm.dispatchEvent(new Event('submit'));
+          }
+        });
+
+        // Effetto parallax leggero per lo sfondo
+        window.addEventListener('scroll', function() {
+          const scrolled = window.pageYOffset;
+          const background = document.querySelector('section[style*="background-image"]');
+          if (background) {
+            background.style.transform = `translateY(${scrolled * 0.3}px)`;
+          }
+        });
+
+        // Inizializza le animazioni quando gli elementi entrano nella viewport
+        const observerOptions = {
+          threshold: 0.1,
+          rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.style.animationPlayState = 'running';
+            }
+          });
+        }, observerOptions);
+
+        // Osserva gli elementi animati
+        document.querySelectorAll('.animate-slide-in-left').forEach(el => {
+          el.style.animationPlayState = 'paused';
+          observer.observe(el);
+        });
+      });
+
+      // Aggiungi l'animazione shake ai CSS globali
+      const style = document.createElement('style');
+      style.textContent = `
+        @keyframes shake {
+          0%, 100% { transform: translateX(0); }
+          10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+          20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+      `;
+      document.head.appendChild(style);
+    </script>
+  </body>
+</html>

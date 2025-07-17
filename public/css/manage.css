@@ -1,0 +1,40 @@
+/* Manage content page styles */
+
+/* Sfondo del body per la pagina manage */
+.manage-body {
+  background-image: url('/sfondo.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Layout container per manage page */
+.manage-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 80px);
+}
+
+/* Main content area */
+.manage-main {
+  flex: 1;
+  padding-top: 6rem;
+  padding-bottom: 2rem;
+  min-height: calc(100vh - 120px);
+}
+
+/* Tabella contenuti */
+.content-table-container {
+  min-height: 400px;
+}
+
+/* Footer sempre in fondo */
+footer {
+  margin-top: auto;
+  position: relative;
+  z-index: 10;
+}

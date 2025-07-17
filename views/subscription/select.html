@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seleziona il tuo abbonamento - CineBinge</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/subscription.css">
+</head>
+<body class="bg-black text-white min-h-screen subscription-body">
+    <!-- Overlay per maggiore leggibilità -->
+    <div class="fixed inset-0 bg-black bg-opacity-70 -z-10"></div>
+    
+    <header class="bg-gradient-to-b from-black via-black/80 to-transparent fixed w-full z-50 top-0 left-0">
+        <div class="container mx-auto px-6 py-6 flex justify-between items-center">
+            <a href="/" class="flex items-center group">
+                <img class="w-32 transition-transform group-hover:scale-105" src="/logo.png" alt="CineBinge" />
+            </a>
+            <div class="flex gap-4 items-center">
+                <a href="/dashboard" class="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-xl transition-all duration-300 text-sm font-medium flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                    </svg>
+                    Dashboard
+                </a>
+            </div>
+        </div>
+    </header>    <!-- Main Content -->
+    <main class="pt-32 pb-20 min-h-screen">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 mt-8">
+                <h1 class="text-5xl font-bold mb-6 tracking-tight">Scegli il tuo abbonamento</h1>
+                <p class="text-white/80 text-lg leading-relaxed">Trova il piano perfetto per te</p>
+            </div>            <!-- Subscription Plans -->
+            <div class="max-w-4xl mx-auto mb-16">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    
+                    <!-- Piano Base -->
+                    <div class="subscription-container rounded-2xl p-6 text-center">
+                        <h2 class="text-2xl font-bold mb-3 text-white">Base</h2>
+                        <p class="text-white/80 text-base mb-4">Piano base con funzionalità limitate</p>
+                        <div class="text-5xl font-bold mb-6 text-white">Gratis</div>
+                        
+                        <ul class="text-left mb-6 space-y-3 text-white/90">
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-red-400 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                </svg>
+                                Noleggio film a pagamento
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-red-400 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                </svg>
+                                Catalogo limitato
+                            </li>
+                        </ul>
+                        
+                        <a href="/dashboard" class="block w-full bg-gray-600 hover:bg-gray-700 text-white py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105">
+                            Seleziona
+                        </a>
+                    </div>
+                    
+                    <!-- Piano Premium -->
+                    <div class="subscription-container rounded-2xl p-6 text-center premium-glow relative">
+                        <div class="absolute -top-3 left-0 right-0 flex justify-center">
+                            <span class="bg-red-600 text-white px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wide">
+                                CONSIGLIATO
+                            </span>
+                        </div>
+                        <h2 class="text-2xl font-bold mb-3 text-white">Premium</h2>
+                        <p class="text-white/80 text-base mb-4">Esperienza completa con contenuti esclusivi</p>
+                        <div class="text-5xl font-bold mb-6 text-white">€14.99<span class="text-lg text-white/70">/mese</span></div>
+                        
+                        <ul class="text-left mb-6 space-y-3 text-white/90">
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-red-400 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                </svg>
+                                Accesso illimitato al catalogo
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-red-400 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                </svg>
+                                Streaming in 4K Ultra HD
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-red-400 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                </svg>
+                                Contenuti esclusivi
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-red-400 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                </svg>
+                                Download offline
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-red-400 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                </svg>
+                                Accesso anticipato ai nuovi titoli
+                            </li>
+                        </ul>
+                        
+                        <a href="/subscription/checkout/premium" class="block w-full bg-red-600 hover:bg-red-700 text-white py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105">
+                            Seleziona
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>    <!-- Enhanced Footer -->
+    <footer class="bg-gradient-to-t from-black via-gray-900 to-transparent py-4 mt-auto">
+        <div class="container mx-auto px-6">
+            <div class="max-w-2xl mx-auto text-center">
+                <p class="text-white/60 text-xs mb-2">© 2025 CineBinge. Tutti i diritti riservati.</p>
+                <div class="flex justify-center items-center space-x-4">
+                    <a href="/about" class="text-xs text-white/80 hover:text-red-400 transition-colors">Chi Siamo</a>
+                    <a href="/about" class="text-xs text-white/80 hover:text-red-400 transition-colors">Privacy</a>
+                    <a href="/about" class="text-xs text-white/80 hover:text-red-400 transition-colors">Termini e Condizioni</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Script modificato per piani fissi anziché caricati dinamicamente
+        document.addEventListener('DOMContentLoaded', async () => {
+            
+        });
+    </script>
+</body>
+</html>

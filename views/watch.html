@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/movie.css">
+    <link rel="stylesheet" href="/css/watch.css">
+    <title>CineBinge - Guarda</title>
+    
+  </head>
+  <body class="bg-black text-white min-h-screen watch-body">
+    <!-- Overlay maggiore leggibilità -->
+    <div class="fixed inset-0 bg-black bg-opacity-70 -z-10"></div>
+    
+    <!--  Navigation -->
+    <header class="bg-gradient-to-b from-black via-black/80 to-transparent fixed w-full z-50 top-0 left-0">
+      <div class="container mx-auto px-6 py-6 flex justify-between items-center">
+        <a href="/" class="flex items-center group">
+          <img class="w-32 transition-transform group-hover:scale-105" src="/logo.png" alt="CineBinge" />
+        </a>
+        <div class="flex gap-4 items-center">
+          <a href="javascript:history.back()" class="bg-white/10 backdrop-blur-sm text-white px-6 py-3 rounded-xl hover:bg-white/20 transition-all duration-300 text-sm font-medium flex items-center gap-2 border border-white/20">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            Indietro
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content  -->
+    <main class="pt-24 min-h-screen watch-container">
+      <!--  Video Player  -->
+      <section class="watch-hero py-12">
+        <div class="container mx-auto px-6">
+          <!--  Titolo del film -->
+          <div class="text-center mb-8">
+            <h1 id="movieTitle" class="text-5xl lg:text-6xl font-bold text-white mb-4 tracking-tight">Caricamento...</h1>
+            <div class="w-24 h-1 bg-red-600 mx-auto rounded-full"></div>
+          </div>
+          
+          <!-- Premium Video Player -->
+          <div class="max-w-7xl mx-auto">
+            <div class="video-player-enhanced premium-glow">
+              <div class="player-frame aspect-video bg-black relative overflow-hidden group">
+                <!-- Video Content  -->
+                <div id="videoPlaceholder" class="w-full h-full flex items-center justify-center bg-gradient-to-br from-zinc-900 to-black">
+                  <div class="text-center">
+                    <div class="w-20 h-20 mx-auto mb-4 bg-red-600/20 rounded-full flex items-center justify-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                      </svg>
+                    </div>
+                    <p class="text-white/80 text-lg">Preparazione del video...</p>
+                  </div>
+                </div>
+                
+                <!--   Controlli video -->
+                <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300" id="videoControls">
+                  <div class="flex items-center gap-4">
+                    <!-- Play/Pause -->
+                    <button id="playPauseBtn" class="bg-red-600 hover:bg-red-700 text-white p-3 rounded-full transition-all duration-300 hover:scale-105">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                      </svg>
+                    </button>
+                    
+                    <!-- Progress Bar -->
+                    <div class="flex-1 h-2 bg-white/20 rounded-full overflow-hidden cursor-pointer">
+                      <div class="h-full bg-red-600 rounded-full transition-all duration-100" id="progressBar" style="width: 0%"></div>
+                    </div>
+                    
+                    <!-- Fullscreen  -->
+                    <button id="fullscreenBtn" class="text-white hover:text-red-400 p-2 rounded-lg hover:bg-white/10 transition-all duration-300">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5v-4m0 4h-4m4 0l-5-5" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- informazioni Movie -->
+      <section class="py-16">
+        <div class="container mx-auto px-6">
+          <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- descrizione Movie  -->
+            <div class="lg:col-span-2 space-y-8">
+              <div class="info-card">
+                <h2 class="text-2xl font-bold text-white mb-4">Trama</h2>
+                <p id="movieDescription" class="text-white/90 text-lg leading-relaxed mb-6">
+                  Caricamento descrizione...
+                </p>
+                
+                <!-- Cast   -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <h3 class="text-white/60 text-sm font-semibold uppercase tracking-wider mb-2">Regia</h3>
+                    <p id="movieDirector" class="text-white text-lg font-medium">Caricamento...</p>
+                  </div>
+                  <div>
+                    <h3 class="text-white/60 text-sm font-semibold uppercase tracking-wider mb-2">Cast Principale</h3>
+                    <p id="movieCast" class="text-white text-lg font-medium">Caricamento...</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- dettagli Movie   -->
+            <div class="space-y-6">
+              <div class="info-card">
+                <h3 class="text-xl font-bold text-white mb-6">Dettagli Film</h3>
+                <div class="space-y-4">
+                  <div class="flex justify-between items-center py-3 border-b border-white/10">
+                    <span class="text-white/60 font-medium">Genere</span>
+                    <span id="movieGenre" class="detail-badge">Caricamento</span>
+                  </div>
+                  <div class="flex justify-between items-center py-3 border-b border-white/10">
+                    <span class="text-white/60 font-medium">Anno</span>
+                    <span id="movieYear" class="text-white font-semibold">-</span>
+                  </div>
+                  <div class="flex justify-between items-center py-3 border-b border-white/10">
+                    <span class="text-white/60 font-medium">Durata</span>
+                    <span id="movieDuration" class="text-white font-semibold">-</span>
+                  </div>
+                  
+                  <!-- info noleggio se possibile -->
+                  <div id="rentalInfo" class="hidden mt-6 p-4 bg-yellow-600/20 border border-yellow-600/30 rounded-xl">
+                    <div class="flex items-center gap-3 text-yellow-400 mb-2">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <span class="font-semibold">Noleggio Attivo</span>
+                    </div>
+                    <p class="text-yellow-300 text-sm">Scade il: <span id="rentalExpiry" class="font-medium">-</span></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!--  Messaggio errore -->
+      <div id="errorMessage" class="hidden container mx-auto px-6 text-center">
+        <div class="max-w-md mx-auto bg-black/80 backdrop-blur-lg rounded-2xl p-8 border border-red-500/20">
+          <div class="w-16 h-16 mx-auto bg-red-600/20 rounded-full flex items-center justify-center mb-4">
+            <svg class="w-8 h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+            </svg>
+          </div>
+          <h2 id="errorTitle" class="text-2xl font-bold text-white mb-4">Accesso Negato</h2>
+          <p id="errorText" class="text-red-200 mb-6 leading-relaxed">Impossibile accedere a questo contenuto.</p>
+          <a href="/browse" class="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16l-4-4m0 0l4-4m-4 4h18" />
+            </svg>
+            Torna ai Film
+          </a>
+        </div>
+      </div>
+    </main>    <!--  Footer -->
+    <footer class="bg-gradient-to-t from-black via-gray-900 to-transparent py-8 mt-16">
+      <div class="container mx-auto px-6 text-center">
+        <div class="max-w-4xl mx-auto">
+          <p class="text-white/60 text-sm mb-4">© 2025 CineBinge. Tutti i diritti riservati.</p>
+          <div class="flex justify-center space-x-6">
+            <a href="/about" class="text-sm text-white/80 hover:text-red-400 transition-colors">Chi Siamo</a>
+            <a href="/about" class="text-sm text-white/80 hover:text-red-400 transition-colors">Privacy</a>
+            <a href="/about" class="text-sm text-white/80 hover:text-red-400 transition-colors">Termini e Condizioni</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Script della pagina di visione 
+      let movieId = null;
+      let movieData = null;
+      let isPlaying = false;
+      let progress = 0;
+      
+      // DOM Elements
+      const errorMessage = document.getElementById('errorMessage');
+      const errorTitle = document.getElementById('errorTitle');
+      const errorText = document.getElementById('errorText');
+      const videoPlaceholder = document.getElementById('videoPlaceholder');
+      const playPauseBtn = document.getElementById('playPauseBtn');
+      const fullscreenBtn = document.getElementById('fullscreenBtn');
+      const progressBar = document.getElementById('progressBar');
+      
+      // Inizializza la pagina immediatamente 
+      document.addEventListener('DOMContentLoaded', () => {
+        // Ottieni l'ID del film dall'URL
+        const urlParts = window.location.pathname.split('/');
+        movieId = urlParts[urlParts.length - 1];
+        
+        // Inizia a caricare i contenuti immediatamente
+        checkWatchAccess();
+        
+        // setta eventi per i pulsanti
+        playPauseBtn.addEventListener('click', togglePlayPause);
+        fullscreenBtn.addEventListener('click', toggleFullscreen);
+        
+        // inizializza il timer di aggiornamento della barra di progresso
+        setInterval(updateProgress, 1000);
+      });
+      
+      // controlla se l'utente può guardare il film
+      function checkWatchAccess() {
+        fetch(`/api/can-watch/${movieId}`)
+          .then(response => response.json())
+          .then(data => {
+            if (data.canWatch) {
+              // L'utente può guardare - carica i dettagli del film
+              loadMovieDetails();
+
+              // Mostra le informazioni sul noleggio se applicabile
+              if (data.reason === 'rental') {
+                const rentalInfo = document.getElementById('rentalInfo');
+                const rentalExpiry = document.getElementById('rentalExpiry');
+                
+                rentalInfo.classList.remove('hidden');
+                
+                if (data.expiryDate) {
+                  const expiryDate = new Date(data.expiryDate);
+                  rentalExpiry.textContent = expiryDate.toLocaleString('it-IT');
+                }
+              }
+            } else {
+              //accesso negato - mostra messaggio di errore
+              console.warn('Access denied:', data.reason);
+              showError('Accesso Negato', data.message || 'Non hai accesso a questo contenuto. Puoi noleggiarlo o abbonarti per guardarlo.');
+            }
+          })
+          .catch(error => {
+            console.error('Error checking access:', error);
+            showError('Errore di Connessione', 'Impossibile verificare l\'accesso a questo contenuto. Riprova più tardi.');
+          });
+      }
+      
+      // carica i dettagli del film
+      function loadMovieDetails() {
+        fetch(`/api/movies/${movieId}`)
+          .then(response => {
+            if (!response.ok) throw new Error('Movie not found');
+            return response.json();
+          })
+          .then(movie => {
+            movieData = movie;
+            displayMovieDetails();
+            initializePlayer();
+          })
+          .catch(error => {
+            console.error(' Error loading movie:', error);
+            showError('Film Non Trovato', 'Il contenuto che stai cercando non è disponibile.');
+          });
+      }
+      
+      // mostra i dettagli del film nella pagina
+      function displayMovieDetails() {
+        // aggiorna il titolo della pagina
+        document.title = `CineBinge - ${movieData.title}`;
+        
+        // Popola le informazioni sul film
+        document.getElementById('movieTitle').textContent = movieData.title;
+        document.getElementById('movieDescription').textContent = movieData.description || 'Descrizione non disponibile.';
+        document.getElementById('movieDirector').textContent = movieData.director || 'N/A';
+        document.getElementById('movieCast').textContent = movieData.cast || 'N/A';
+        document.getElementById('movieGenre').textContent = movieData.genre ? movieData.genre.charAt(0).toUpperCase() + movieData.genre.slice(1) : 'Sconosciuto';
+        document.getElementById('movieYear').textContent = movieData.release_year || 'N/A';
+        document.getElementById('movieDuration').textContent = movieData.duration ? `${movieData.duration} min` : 'N/A';
+      }
+
+      // Proccessa l'URL di YouTube per ottenere il formato di incorporamento corretto
+      function processYouTubeUrl(url) {
+        if (!url) return '';
+
+        // Gestisci diversi formati di URL di YouTube
+        let videoId = '';
+        
+        // Standard YouTube URL: https://www.youtube.com/watch?v=VIDEO_ID
+        if (url.includes('youtube.com/watch?v=')) {
+          videoId = url.split('watch?v=')[1].split('&')[0];
+        }
+        // Short YouTube URL: https://youtu.be/VIDEO_ID
+        else if (url.includes('youtu.be/')) {
+          videoId = url.split('youtu.be/')[1].split('?')[0];
+        }
+        // YouTube embed URL: https://www.youtube.com/embed/VIDEO_ID
+        else if (url.includes('youtube.com/embed/')) {
+          videoId = url.split('embed/')[1].split('?')[0];
+        }
+        // se è pronto un ID video diretto
+        else if (url.length === 11 && /^[a-zA-Z0-9_-]+$/.test(url)) {
+          videoId = url;
+        }
+        
+        if (videoId) {
+          return `https://www.youtube.com/embed/${videoId}?autoplay=1&controls=1&rel=0&modestbranding=1`;
+        }
+
+        return url; // Ritorna originale se non può essere analizzato
+      }      // video player inizializzazione con YouTube 
+      function initializePlayer() {
+        if (movieData.trailer_url) {
+          // processa l'URL di YouTube
+          let embedUrl = processYouTubeUrl(movieData.trailer_url);
+          
+          //crea l'elemento iframe per il video
+          videoPlaceholder.innerHTML = `
+            <div class="relative w-full h-full bg-black rounded-lg overflow-hidden">
+              <iframe 
+                id="youtubePlayer"
+                src="${embedUrl}" 
+                frameborder="0" 
+                allowfullscreen 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                class="w-full h-full"
+                loading="lazy">
+              </iframe>
+              
+              <!-- Custom overlay controls (optional) -->
+              <div class="absolute inset-0 pointer-events-none">
+                <div class="absolute top-4 left-4">
+                  <div class="bg-black/70 backdrop-blur-sm rounded-lg px-3 py-2">
+                    <p class="text-white text-sm font-medium">${movieData.title}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+          
+          // Nascondi i controlli predefiniti poiché YouTube li gestisce
+          const videoControls = document.getElementById('videoControls');
+          if (videoControls) {
+            videoControls.style.display = 'none';
+          }
+          
+        } else {
+          // Mostra il poster del film con uno stile migliorato
+          videoPlaceholder.innerHTML = `
+            <div class="flex flex-col items-center justify-center h-full text-center p-8 bg-gradient-to-br from-zinc-900 to-black">
+              <div class="relative group">
+                <img src="${movieData.image_path || '/placeholder.jpg'}" 
+                     alt="${movieData.title}" 
+                     class="max-h-80 mb-6 rounded-xl shadow-2xl transition-transform duration-300 group-hover:scale-105">
+                <div class="absolute inset-0 bg-black/40 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                  <div class="w-16 h-16 bg-red-600/80 rounded-full flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              <div class="space-y-4">
+                <h3 class="text-3xl font-bold text-white">${movieData.title}</h3>
+                <p class="text-white/80 text-lg">Stai guardando: ${movieData.title}</p>
+                <div class="bg-white/10 backdrop-blur-sm rounded-xl p-4 max-w-md">
+                  <p class="text-white/70 text-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    In una vera piattaforma di streaming, qui verrebbe riprodotto il contenuto completo del film
+                  </p>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+
+        // Avvia la riproduzione simulata per contenuti non YouTube
+        if (!movieData.trailer_url) {
+          isPlaying = true;
+          updatePlayPauseButton();
+        }
+      }
+
+      // Mostra messaggio di errore
+      function showError(title, message) {
+        errorTitle.textContent = title;
+        errorText.textContent = message;
+        errorMessage.classList.remove('hidden');
+
+        // Nascondi altri contenuti
+        document.querySelector('.watch-hero').style.display = 'none';
+        document.querySelector('section:nth-of-type(2)').style.display = 'none';
+      }
+      
+      //  play/pause
+      function togglePlayPause() {
+        isPlaying = !isPlaying;
+        updatePlayPauseButton();
+      }
+      
+      //  play/pause bottone
+      function updatePlayPauseButton() {
+        const icon = isPlaying ? 
+          `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+           </svg>` :
+          `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+           </svg>`;
+        playPauseBtn.innerHTML = icon;
+      }
+      
+      //  fullscreen
+      function toggleFullscreen() {
+        const container = document.querySelector('.player-frame');
+        
+        if (!document.fullscreenElement) {
+          container.requestFullscreen().catch(err => {
+            console.error('Fullscreen error:', err.message);
+          });
+        } else {
+          document.exitFullscreen();
+        }
+      }
+
+      // aggiorna la progress bar
+      function updateProgress() {
+        if (!isPlaying) return;
+        
+        progress += 0.2; // 0.2% per second
+        if (progress > 100) progress = 0;
+        
+        progressBar.style.width = `${progress}%`;
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,9 @@
+/* About page styles */
+
+/* Sfondo del body per la pagina about */
+.about-body {
+  background-image: url('/sfondo.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}

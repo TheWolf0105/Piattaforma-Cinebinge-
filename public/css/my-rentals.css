@@ -1,0 +1,33 @@
+/* My rentals page styles */
+
+/* Sfondo del body per la pagina my-rentals */
+.my-rentals-body {
+  background-image: url('/sfondo.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+/* Forza la visibilità e rimuove overlay bloccanti */
+body {
+  overflow: auto !important;
+  pointer-events: auto !important;
+}
+
+main {
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+/* Nascondi qualsiasi overlay di loading che potrebbe rimanere */
+[id*="loading"],
+[class*="loading-overlay"],
+.fixed.inset-0:not(header):not(footer) {
+  display: none !important;
+}
+
+/* Debug: evidenzia elementi sospetti */
+.fixed[style*="background"] {
+  border: 2px solid red !important;
+}

@@ -1,0 +1,211 @@
+/* main.css - Stili globali per l'applicazione
+ contiene stili di base, variabili CSS e importazioni di moduli CSS.
+   */
+
+/*per tailwind */
+html * {
+  box-sizing: border-box;
+}
+
+/* Import di tutti i moduli CSS aggiornati */
+@import url('./index.css');         /* Homepage */
+@import url('./auth.css');          /* Login e registrazione */
+@import url('./dashboard.css');     /* Dashboard utente */
+@import url('./browse.css');        /* Pagina sfoglia contenuti */
+@import url('./watch.css');         /* Pagina watch/video player */
+@import url('./movie-detail.css');  /* Dettagli film */
+@import url('./manage.css');        /* Pannello gestione contenuti */
+@import url('./subscription.css');  /* Pagine abbonamento */
+@import url('./my-rentals.css');    /* Pagina noleggi utente */
+@import url('./about.css');         /* Pagina about/chi siamo */
+@import url('./404.css');           /* Pagina errore 404 */
+
+/* Import di font esterni */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+/* Variabili CSS globali per mantenere consistenza */
+:root {
+  /* Colori principali */
+  --primary-red: #e50914;
+  --primary-red-dark: #b20710;
+  --primary-red-light: rgba(229, 9, 20, 0.1);
+  
+  /* Colori di sfondo */
+  --bg-black: #000000;
+  --bg-dark: rgba(0, 0, 0, 0.8);
+  --bg-darker: rgba(0, 0, 0, 0.9);
+  --bg-overlay: rgba(0, 0, 0, 0.6);
+  
+  /* Colori di testo */
+  --text-white: #ffffff;
+  --text-gray: rgba(255, 255, 255, 0.8);
+  --text-light-gray: rgba(255, 255, 255, 0.6);
+  --text-dim: rgba(255, 255, 255, 0.4);
+  
+  /* Colori di bordo */
+  --border-light: rgba(255, 255, 255, 0.1);
+  --border-medium: rgba(255, 255, 255, 0.2);
+  --border-strong: rgba(255, 255, 255, 0.3);
+  
+  /* Spazi e dimensioni */
+  --border-radius: 8px;
+  --border-radius-lg: 12px;
+  --border-radius-xl: 16px;
+  
+  /* Transizioni */
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.5s ease;
+  
+  /* Ombre */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 8px 25px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.4);
+  --shadow-xl: 0 25px 60px rgba(0, 0, 0, 0.5);
+  
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, var(--primary-red), var(--primary-red-dark));
+  --gradient-overlay: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7));
+  --gradient-text: linear-gradient(135deg, var(--text-white), var(--primary-red));
+}
+
+/* Utility classes per uso comune */
+.text-primary { color: var(--primary-red) !important; }
+.text-white { color: var(--text-white) !important; }
+.text-gray { color: var(--text-gray) !important; }
+.text-center { text-align: center !important; }
+.text-left { text-align: left !important; }
+.text-right { text-align: right !important; }
+
+.bg-dark { background: var(--bg-dark) !important; }
+.bg-darker { background: var(--bg-darker) !important; }
+.bg-primary { background: var(--primary-red) !important; }
+
+.rounded { border-radius: var(--border-radius) !important; }
+.rounded-lg { border-radius: var(--border-radius-lg) !important; }
+.rounded-xl { border-radius: var(--border-radius-xl) !important; }
+
+.shadow-sm { box-shadow: var(--shadow-sm) !important; }
+.shadow-md { box-shadow: var(--shadow-md) !important; }
+.shadow-lg { box-shadow: var(--shadow-lg) !important; }
+
+.hidden { display: none !important; }
+.visible { display: block !important; }
+.flex { display: flex !important; }
+.grid { display: grid !important; }
+
+.w-full { width: 100% !important; }
+.h-full { height: 100% !important; }
+.m-0 { margin: 0 !important; }
+.p-0 { padding: 0 !important; }
+
+/* Animazioni globali riutilizzabili */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Classi per animazioni */
+.fade-in { animation: fadeIn 0.6s ease-out; }
+.slide-in-left { animation: slideInLeft 0.6s ease-out; }
+.slide-in-right { animation: slideInRight 0.6s ease-out; }
+.scale-in { animation: scaleIn 0.4s ease-out; }
+.pulse { animation: pulse 2s infinite; }
+
+/* Scrollbar personalizzata */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  transition: background var(--transition-normal);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+/* Selection styling */
+::selection {
+  background: var(--primary-red);
+  color: var(--text-white);
+}
+
+::-moz-selection {
+  background: var(--primary-red);
+  color: var(--text-white);
+}
+
+/* Focus outline personalizzato */
+*:focus-visible {
+  outline: 2px solid var(--primary-red);
+  outline-offset: 2px;
+}
+
+/* Print styles */
+@media print {
+  * {
+    background: white !important;
+    color: black !important;
+  }
+  
+  .no-print {
+    display: none !important;
+  }
+}

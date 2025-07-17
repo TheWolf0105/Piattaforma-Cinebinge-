@@ -1,0 +1,64 @@
+/*  watch page styles */
+
+/* Sfondo del body per la pagina watch */
+.watch-body {
+  background-image: url('/sfondo.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+.watch-hero {
+  position: relative;
+  overflow: hidden;
+}
+
+.watch-container {
+  position: relative;
+  z-index: 1;
+}
+
+.video-player-enhanced {
+  background: linear-gradient(to top, #000000, #1a1a1a);
+  border-radius: 24px;
+  padding: 2rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.player-frame {
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+  background: #000;
+}
+
+.info-card {
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 2rem;
+}
+
+.detail-badge {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.875rem;
+}
+
+.premium-glow {
+  box-shadow: 0 0 30px rgba(239, 68, 68, 0.3);
+}
+
+.floating-controls {
+  background: rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}

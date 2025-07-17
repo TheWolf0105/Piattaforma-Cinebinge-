@@ -1,0 +1,64 @@
+/* Movie detail page styles */
+
+/* Sfondo del body per la pagina movie detail */
+.movie-detail-body {
+  background-image: url('/sfondo.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+/* EMERGENCY FIX: Forza clickabilità trailer YouTube */
+.trailer-container, .aspect-video {
+  position: relative !important;
+  z-index: 9999 !important;
+  pointer-events: auto !important;
+  isolation: isolate !important;
+}
+
+.trailer-container iframe, .aspect-video iframe, #trailerFrame {
+  position: relative !important;
+  z-index: 10000 !important;
+  pointer-events: auto !important;
+  border: none !important;
+  background: transparent !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Disabilita qualsiasi overlay interferente */
+.trailer-container::before,
+.trailer-container::after,
+.aspect-video::before,
+.aspect-video::after {
+  display: none !important;
+}
+
+/* Forza tutti i figli ad essere cliccabili */
+.trailer-container *,
+.aspect-video * {
+  pointer-events: auto !important;
+}
+
+/* SECURITY: Force hide rental modal for non-authenticated users */
+#rentModal {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  z-index: -9999 !important;
+}
+
+/* Only show modal when explicitly authorized */
+#rentModal.authorized-display {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  z-index: 50 !important;
+}
+
+/* Additional security - prevent unauthorized modal display */
+#rentModal:not(.authorized-display) {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+}

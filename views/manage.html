@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/manage.css">
+    <title>CineBinge - Gestione Contenuti</title>
+  </head>  
+  <body class="bg-black text-white manage-body">
+    <!-- Overlay scuro per migliorare la leggibilità -->
+    <div class="fixed inset-0 bg-black bg-opacity-60 -z-10"></div>
+    <header class="bg-gradient-to-b from-black to-transparent fixed w-full z-50 top-0 left-0">
+      <div class="container mx-auto px-4 py-6 flex justify-between items-center">
+        <a href="/">
+          <img class="w-32" src="/logo.png" alt="CineBinge" />
+        </a>        <div class="flex gap-4 items-center">
+          <a href="/dashboard" class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors text-sm">
+            Dashboard
+          </a>
+          <button onclick="window.history.back()" class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors text-sm">
+            Indietro
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8 pt-24">
+      <div class="max-w-6xl mx-auto">
+        <h1 class="text-white text-4xl font-bold mb-6 text-center">Gestione Contenuti</h1>
+        
+        <!-- Admin  -->
+        <div class="mb-6 flex border-b border-gray-700">
+          <button id="tabAddContent" class="px-4 py-2 text-white border-b-2 border-red-600 font-medium">
+            Aggiungi Contenuto
+          </button>
+          <button id="tabManageContent" class="px-4 py-2 text-gray-400 hover:text-white">
+            Gestisci Contenuti
+          </button>
+        </div>
+
+        <div id="addContentSection" class="admin-section rounded-lg p-6 mb-8">
+          <h2 class="text-2xl font-semibold mb-4">Aggiungi Nuovo Contenuto</h2>
+          
+          <form id="addContentForm" class="space-y-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-gray-400 mb-1 text-sm">Titolo</label>
+                <input 
+                  type="text" 
+                  name="title" 
+                  required
+                  class="w-full px-4 py-2 rounded-md bg-gray-700 text-white border border-gray-600 focus:border-red-500 focus:ring-2 focus:ring-red-500 focus:outline-none"
+                />
+              </div>
+              
+              <div>
+                <label class="block text-gray-400 mb-1 text-sm">Genere</label>
+                <input 
+                  type="text" 
+                  name="genre" 
+                  required
+                  class="w-full px-4 py-2 rounded-md bg-gray-700 text-white border border-gray-600 focus:border-red-500 focus:ring-2 focus:ring-red-500 focus:outline-none"
+                  placeholder="es. azione, commedia, drammatico..."
+                />
+              </div>
+              
+              <div>
+                <label class="block text-gray-400 mb-1 text-sm">Anno</label>
+                <input 
+                  type="number" 
+                  name="release_year" 
+                  min="1900"
+                  max="2030"
+                  class="w-full px-4 py-2 rounded-md bg-gray-700 text-white border border-gray-600 focus:border-red-500 focus:ring-2 focus:ring-red-500 focus:outline-none"
+                />
+              </div>
+              
+              <div>
+                <label class="block text-gray-400 mb-1 text-sm">Durata (minuti)</label>
+                <input 
+                  type="number" 
+                  name="duration" 
+                  min="1"
+                  class="w-full px-4 py-2 rounded-md bg-gray-700 text-white border border-gray-600 focus:border-red-500 focus:ring-2 focus:ring-red-500 focus:outline-none"
+                />
+              </div>
+              
+              <div>
+                <label class="block text-gray-400 mb-1 text-sm">Regista</label>
+                <input 
+                  type="text" 
+                  name="director" 
+                  class="w-full px-4 py-2 rounded-md bg-gray-700 text-white border border-gray-600 focus:border-red-500 focus:ring-2 focus:ring-red-500 focus:outline-none"
+                />
+              </div>
+              
+              <div>
+                <label class="block text-gray-400 mb-1 text-sm">Cast</label>
+                <input 
+                  type="text" 
+                  name="cast" 
+                  class="w-full px-4 py-2 rounded-md bg-gray-700 text-white border border-gray-600 focus:border-red-500 focus:ring-2 focus:ring-red-500 focus:outline-none"
+                  placeholder="es. Attore1, Attore2, Attore3..."
+                />
+              </div>
+              
+              <div>
+                <label class="block text-gray-400 mb-1 text-sm">URL Immagine</label>
+                <input 
+                  type="text" 
+                  name="image_path" 
+                  class="w-full px-4 py-2 rounded-md bg-gray-700 text-white border border-gray-600 focus:border-red-500 focus:ring-2 focus:ring-red-500 focus:outline-none"
+                  placeholder="/assets/genere/immagine.jpg"
+                />
+              </div>
+              
+              <div>
+                <label class="block text-gray-400 mb-1 text-sm">URL Trailer</label>
+                <input 
+                  type="text" 
+                  name="trailer_url" 
+                  class="w-full px-4 py-2 rounded-md bg-gray-700 text-white border border-gray-600 focus:border-red-500 focus:ring-2 focus:ring-red-500 focus:outline-none"
+                  placeholder="https://www.youtube.com/embed/..."
+                />
+              </div>
+              
+              <div>
+                <label class="block text-gray-400 mb-1 text-sm">Tipo</label>
+                <select 
+                  name="type" 
+                  class="w-full px-4 py-2 rounded-md bg-gray-700 text-white border border-gray-600 focus:border-red-500 focus:ring-2 focus:ring-red-500 focus:outline-none"
+                >
+                  <option value="movie">Film</option>
+                  <option value="series">Serie TV</option>
+                </select>
+              </div>
+              
+              <div>
+                <label class="block text-gray-400 mb-1 text-sm">Prezzo Noleggio (€)</label>
+                <input 
+                  type="number" 
+                  name="rent_price" 
+                  min="0.99"
+                  step="0.01"
+                  value="3.99"
+                  class="w-full px-4 py-2 rounded-md bg-gray-700 text-white border border-gray-600 focus:border-red-500 focus:ring-2 focus:ring-red-500 focus:outline-none"
+                />
+              </div>
+            </div>
+            
+            <div class="mt-2">
+              <label class="block text-gray-400 mb-1 text-sm">Descrizione</label>
+              <textarea 
+                name="description" 
+                required
+                rows="4"
+                class="w-full px-4 py-2 rounded-md bg-gray-700 text-white border border-gray-600 focus:border-red-500 focus:ring-2 focus:ring-red-500 focus:outline-none"
+              ></textarea>
+            </div>
+            
+            <div class="flex items-center">
+              <input 
+                type="checkbox" 
+                name="rentable" 
+                checked
+                id="rentableCheckbox"
+                class="h-4 w-4 text-red-600 focus:ring-red-500 border-gray-600 rounded"
+              />
+              <label for="rentableCheckbox" class="ml-2 text-sm text-gray-300">
+                Disponibile per il noleggio
+              </label>
+            </div>
+            
+            <div class="pt-3">
+              <button 
+                type="submit" 
+                class="bg-red-600 text-white px-6 py-3 rounded-md hover:bg-red-700 transition-colors"
+              >
+                Aggiungi Contenuto
+              </button>
+              <div id="addContentStatus" class="mt-3 text-sm"></div>
+            </div>
+          </form>
+        </div>
+        
+        <div id="manageContentSection" class="admin-section rounded-lg p-6 mb-8 hidden">
+          <h2 class="text-2xl font-semibold mb-4">Gestisci Contenuti Esistenti</h2>
+          
+          <!--  Barra ricerca -->
+          <div class="mb-6 flex flex-col sm:flex-row gap-3">
+            <input 
+              type="text" 
+              id="searchContent" 
+              placeholder="Cerca contenuto..." 
+              class="flex-grow px-4 py-2 rounded-md bg-gray-700 text-white border border-gray-600 focus:border-red-500 focus:ring-2 focus:ring-red-500 focus:outline-none"
+            />
+            <button 
+              id="searchButton" 
+              class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors"
+            >
+              Cerca
+            </button>
+          </div>
+          
+          <!-- lista contenitore -->
+          <div class="overflow-x-auto">
+            <table class="min-w-full bg-gray-800 rounded-lg overflow-hidden">
+              <thead class="bg-gray-900">
+                <tr>
+                  <th class="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Titolo</th>
+                  <th class="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Genere</th>
+                  <th class="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Anno</th>
+                  <th class="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Tipo</th>
+                  <th class="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Noleggiabile</th>
+                  <th class="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Azioni</th>
+                </tr>
+              </thead>
+              <tbody id="contentTableBody" class="divide-y divide-gray-700">
+                <!-- qui contenuti caricati -->
+                <tr>
+                  <td colspan="6" class="px-4 py-8 text-center text-gray-400">
+                    <div class="flex justify-center">
+                      <div class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-red-600"></div>
+                    </div>
+                    <p class="mt-2">Caricamento dei contenuti...</p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
+          <div id="contentListStatus" class="mt-4 text-sm"></div>
+        </div>
+      </div>
+    </main>    <!-- modifica contenuti -->
+    <div id="editModal" class="fixed inset-0 bg-black bg-opacity-75 z-50 hidden items-center justify-center">
+      <div class="bg-zinc-800 rounded-lg p-6 max-w-3xl w-full mx-4 max-h-screen overflow-y-auto">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-xl font-bold">Modifica Contenuto</h2>
+          <button id="closeEditModal" class="text-gray-400 hover:text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        
+        <form id="editContentForm" class="space-y-4">
+          <input type="hidden" name="id" id="editContentId" />
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-gray-400 mb-1 text-sm">Titolo</label>
+              <input 
+                type="text" 
+                name="title" 
+                id="editTitle"
+                required
+                class="w-full px-4 py-2 rounded-md bg-gray-700 text-white border border-gray-600 focus:border-red-500 focus:ring-2 focus:ring-red-500 focus:outline-none"
+              />
+            </div>
+            
+            <div>
+              <label class="block text-gray-400 mb-1 text-sm">Genere</label>
+              <input 
+                type="text" 
+                name="genre" 
+                id="editGenre"
+                required
+                class="w-full px-4 py-2 rounded-md bg-gray-700 text-white border border-gray-600 focus:border-red-500 focus:ring-2 focus:ring-red-500 focus:outline-none"
+              />
+            </div>
+            
+            <div>
+              <label class="block text-gray-400 mb-1 text-sm">Anno</label>
+              <input 
+                type="number" 
+                name="release_year" 
+                id="editReleaseYear"
+                min="1900"
+                max="2030"
+                class="w-full px-4 py-2 rounded-md bg-gray-700 text-white border border-gray-600 focus:border-red-500 focus:ring-2 focus:ring-red-500 focus:outline-none"
+              />
+            </div>
+            
+            <div>
+              <label class="block text-gray-400 mb-1 text-sm">Durata (minuti)</label>
+              <input 
+                type="number" 
+                name="duration" 
+                id="editDuration"
+                min="1"
+                class="w-full px-4 py-2 rounded-md bg-gray-700 text-white border border-gray-600 focus:border-red-500 focus:ring-2 focus:ring-red-500 focus:outline-none"
+              />
+            </div>
+            
+            <div>
+              <label class="block text-gray-400 mb-1 text-sm">Regista</label>
+              <input 
+                type="text" 
+                name="director" 
+                id="editDirector"
+                class="w-full px-4 py-2 rounded-md bg-gray-700 text-white border border-gray-600 focus:border-red-500 focus:ring-2 focus:ring-red-500 focus:outline-none"
+              />
+            </div>
+            
+            <div>
+              <label class="block text-gray-400 mb-1 text-sm">Cast</label>
+              <input 
+                type="text" 
+                name="cast" 
+                id="editCast"
+                class="w-full px-4 py-2 rounded-md bg-gray-700 text-white border border-gray-600 focus:border-red-500 focus:ring-2 focus:ring-red-500 focus:outline-none"
+              />
+            </div>
+            
+            <div>
+              <label class="block text-gray-400 mb-1 text-sm">URL Immagine</label>
+              <input 
+                type="text" 
+                name="image_path" 
+                id="editImagePath"
+                class="w-full px-4 py-2 rounded-md bg-gray-700 text-white border border-gray-600 focus:border-red-500 focus:ring-2 focus:ring-red-500 focus:outline-none"
+              />
+            </div>
+            
+            <div>
+              <label class="block text-gray-400 mb-1 text-sm">URL Trailer</label>
+              <input 
+                type="text" 
+                name="trailer_url" 
+                id="editTrailerUrl"
+                class="w-full px-4 py-2 rounded-md bg-gray-700 text-white border border-gray-600 focus:border-red-500 focus:ring-2 focus:ring-red-500 focus:outline-none"
+              />
+            </div>
+            
+            <div>
+              <label class="block text-gray-400 mb-1 text-sm">Tipo</label>
+              <select 
+                name="type" 
+                id="editType"
+                class="w-full px-4 py-2 rounded-md bg-gray-700 text-white border border-gray-600 focus:border-red-500 focus:ring-2 focus:ring-red-500 focus:outline-none"
+              >
+                <option value="movie">Film</option>
+                <option value="series">Serie TV</option>
+              </select>
+            </div>
+            
+            <div>
+              <label class="block text-gray-400 mb-1 text-sm">Prezzo Noleggio (€)</label>
+              <input 
+                type="number" 
+                name="rent_price" 
+                id="editRentPrice"
+                min="0.99"
+                step="0.01"
+                class="w-full px-4 py-2 rounded-md bg-gray-700 text-white border border-gray-600 focus:border-red-500 focus:ring-2 focus:ring-red-500 focus:outline-none"
+              />
+            </div>
+          </div>
+          
+          <div class="mt-2">
+            <label class="block text-gray-400 mb-1 text-sm">Descrizione</label>
+            <textarea 
+              name="description" 
+              id="editDescription"
+              required
+              rows="4"
+              class="w-full px-4 py-2 rounded-md bg-gray-700 text-white border border-gray-600 focus:border-red-500 focus:ring-2 focus:ring-red-500 focus:outline-none"
+            ></textarea>
+          </div>
+          
+          <div class="flex items-center">
+            <input 
+              type="checkbox" 
+              name="rentable" 
+              id="editRentableCheckbox"
+              class="h-4 w-4 text-red-600 focus:ring-red-500 border-gray-600 rounded"
+            />
+            <label for="editRentableCheckbox" class="ml-2 text-sm text-gray-300">
+              Disponibile per il noleggio
+            </label>
+          </div>
+          
+          <div class="pt-3 flex justify-between">
+            <button 
+              type="submit" 
+              class="bg-red-600 text-white px-6 py-3 rounded-md hover:bg-red-700 transition-colors"
+            >
+              Salva Modifiche
+            </button>
+            <button 
+              type="button"
+              id="cancelEditButton"
+              class="bg-gray-700 text-white px-6 py-3 rounded-md hover:bg-gray-600 transition-colors"
+            >
+              Annulla
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+      <!-- conferma di eliminazione del contenuto -->
+    <div id="deleteModal" class="fixed inset-0 bg-black bg-opacity-75 z-50 hidden items-center justify-center">
+      <div class="bg-zinc-800 rounded-lg p-6 max-w-md w-full mx-4">
+        <h2 class="text-xl font-bold mb-4">Conferma Eliminazione</h2>
+        <p class="text-gray-300 mb-6">
+          Sei sicuro di voler eliminare questo contenuto? Questa azione non può essere annullata.
+        </p>
+        <div class="flex justify-between">
+          <button 
+            id="confirmDeleteButton" 
+            class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors"
+          >
+            Elimina
+          </button>
+          <button 
+            id="cancelDeleteButton" 
+            class="bg-gray-700 text-white px-4 py-2 rounded-md hover:bg-gray-600 transition-colors"
+          >
+            Annulla
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <footer class="bg-gradient-to-t from-black to-gray-800 py-3 mt-auto">
+      <div class="container mx-auto text-center">
+        <p class="text-gray-400 text-xs">© 2025 CineBinge. Tutti i diritti riservati.</p>
+        <div class="flex justify-center space-x-3 mt-2">
+          <a href="/about" class="text-xs text-white hover:text-red-500 transition-colors">Chi Siamo</a>
+          <a href="/about" class="text-xs text-white hover:text-red-500 transition-colors">Privacy</a>
+          <a href="/about" class="text-xs text-white hover:text-red-500 transition-colors">Termini e Condizioni</a>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Elementi DOM
+      const tabAddContent = document.getElementById('tabAddContent');
+      const tabManageContent = document.getElementById('tabManageContent');
+      const addContentSection = document.getElementById('addContentSection');
+      const manageContentSection = document.getElementById('manageContentSection');
+      const addContentForm = document.getElementById('addContentForm');
+      const addContentStatus = document.getElementById('addContentStatus');
+      const contentTableBody = document.getElementById('contentTableBody');
+      const contentListStatus = document.getElementById('contentListStatus');
+      const searchContent = document.getElementById('searchContent');
+      const searchButton = document.getElementById('searchButton');
+      
+      // Modali
+      const editModal = document.getElementById('editModal');
+      const editContentForm = document.getElementById('editContentForm');
+      const closeEditModal = document.getElementById('closeEditModal');
+      const cancelEditButton = document.getElementById('cancelEditButton');
+      const deleteModal = document.getElementById('deleteModal');
+      const confirmDeleteButton = document.getElementById('confirmDeleteButton');
+      const cancelDeleteButton = document.getElementById('cancelDeleteButton');
+      
+      // Variabili
+      let allContent = [];
+      let contentToDelete = null;
+      
+      // Inizializzazione
+      document.addEventListener('DOMContentLoaded', () => {
+        // Event listeners per i tab
+        tabAddContent.addEventListener('click', () => {
+          showAddContentTab();
+        });
+        
+        tabManageContent.addEventListener('click', () => {
+          showManageContentTab();
+          loadContent();
+        });
+        
+        // Event listeners per i form
+        addContentForm.addEventListener('submit', handleAddContent);
+        editContentForm.addEventListener('submit', handleEditContent);
+        
+        // Event listeners per i pulsanti di ricerca
+        searchButton.addEventListener('click', () => {
+          filterContent(searchContent.value);
+        });
+        
+        searchContent.addEventListener('keypress', (e) => {
+          if (e.key === 'Enter') {
+            filterContent(searchContent.value);
+          }
+        });
+        
+        // Event listeners per i modali
+        closeEditModal.addEventListener('click', closeModals);
+        cancelEditButton.addEventListener('click', closeModals);
+        cancelDeleteButton.addEventListener('click', closeModals);
+        confirmDeleteButton.addEventListener('click', handleDeleteContent);
+      });
+      
+      // Mostra il tab di aggiunta contenuti
+      function showAddContentTab() {
+        tabAddContent.classList.add('border-b-2', 'border-red-600', 'text-white');
+        tabAddContent.classList.remove('text-gray-400');
+        tabManageContent.classList.remove('border-b-2', 'border-red-600', 'text-white');
+        tabManageContent.classList.add('text-gray-400');
+        
+        addContentSection.classList.remove('hidden');
+        manageContentSection.classList.add('hidden');
+      }
+      
+      // Mostra il tab di gestione contenuti
+      function showManageContentTab() {
+        tabManageContent.classList.add('border-b-2', 'border-red-600', 'text-white');
+        tabManageContent.classList.remove('text-gray-400');
+        tabAddContent.classList.remove('border-b-2', 'border-red-600', 'text-white');
+        tabAddContent.classList.add('text-gray-400');
+        
+        manageContentSection.classList.remove('hidden');
+        addContentSection.classList.add('hidden');
+      }
+      
+      // Gestisce l'aggiunta di un nuovo contenuto
+      function handleAddContent(e) {
+        e.preventDefault();
+        
+        // Ottieni i dati dal form
+        const formData = new FormData(addContentForm);
+        const movieData = {
+          title: formData.get('title'),
+          description: formData.get('description'),
+          genre: formData.get('genre'),
+          release_year: parseInt(formData.get('release_year')) || null,
+          duration: parseInt(formData.get('duration')) || null,
+          director: formData.get('director'),
+          cast: formData.get('cast'),
+          image_path: formData.get('image_path'),
+          trailer_url: formData.get('trailer_url'),
+          rentable: formData.has('rentable') ? 1 : 0,
+          rent_price: parseFloat(formData.get('rent_price')) || 3.99,
+          type: formData.get('type')
+        };
+        
+        // Aggiorna lo stato
+        addContentStatus.innerHTML = `
+          <div class="text-yellow-500">
+            <svg class="animate-spin inline-block h-4 w-4 mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            Aggiunta in corso...
+          </div>
+        `;
+        
+        // Invia la richiesta
+        fetch('/api/movies', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(movieData)
+        })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Failed to add content');
+          }
+          return response.json();
+        })
+        .then(data => {
+          if (data.success) {
+            // Reset del form
+            addContentForm.reset();
+            
+            // Aggiorna lo stato
+            addContentStatus.innerHTML = `
+              <div class="text-green-500">
+                Contenuto aggiunto con successo! ID: ${data.movieId}
+              </div>
+            `;
+            
+            // Nascondi il messaggio dopo 3 secondi
+            setTimeout(() => {
+              addContentStatus.innerHTML = '';
+            }, 3000);
+          } else {
+            throw new Error(data.error || 'Errore sconosciuto');
+          }
+        })
+        .catch(error => {
+          console.error('Error adding content:', error);
+          
+          // Aggiorna lo stato
+          addContentStatus.innerHTML = `
+            <div class="text-red-500">
+              Errore durante l'aggiunta del contenuto: ${error.message}
+            </div>
+          `;
+        });
+      }
+      
+      // Carica tutti i contenuti
+      function loadContent() {
+        contentTableBody.innerHTML = `
+          <tr>
+            <td colspan="6" class="px-4 py-8 text-center text-gray-400">
+              <div class="flex justify-center">
+                <div class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-red-600"></div>
+              </div>
+              <p class="mt-2">Caricamento dei contenuti...</p>
+            </td>
+          </tr>
+        `;
+        
+        fetch('/api/movies')
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Failed to fetch content');
+            }
+            return response.json();
+          })
+          .then(data => {
+            allContent = data;
+            displayContent(data);
+          })
+          .catch(error => {
+            console.error('Error loading content:', error);
+            contentTableBody.innerHTML = `
+              <tr>
+                <td colspan="6" class="px-4 py-4 text-center text-red-500">
+                  Errore durante il caricamento dei contenuti. Riprova più tardi.
+                </td>
+              </tr>
+            `;
+          });
+      }
+      
+      // Visualizza i contenuti nella tabella
+      function displayContent(content) {
+        if (content.length === 0) {
+          contentTableBody.innerHTML = `
+            <tr>
+              <td colspan="6" class="px-4 py-4 text-center text-gray-400">
+                Nessun contenuto trovato.
+              </td>
+            </tr>
+          `;
+          return;
+        }
+        
+        contentTableBody.innerHTML = '';
+        
+        content.forEach(item => {
+          const row = document.createElement('tr');
+          row.className = 'hover:bg-gray-700';
+          
+          row.innerHTML = `
+            <td class="px-4 py-3 whitespace-nowrap">
+              <div class="flex items-center">
+                ${item.image_path ? `<img src="${item.image_path}" alt="${item.title}" class="h-10 w-10 mr-3 object-cover rounded">` : ''}
+                <div>
+                  <div class="text-sm font-medium text-white">${item.title}</div>
+                  <div class="text-xs text-gray-400">${item.id}</div>
+                </div>
+              </div>
+            </td>
+            <td class="px-4 py-3 text-sm text-gray-300">${item.genre}</td>
+            <td class="px-4 py-3 text-sm text-gray-300">${item.release_year || 'N/A'}</td>
+            <td class="px-4 py-3 text-sm text-gray-300">${item.type === 'series' ? 'Serie TV' : 'Film'}</td>
+            <td class="px-4 py-3 text-sm">
+              ${item.rentable ? 
+                '<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Sì</span>' : 
+                '<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">No</span>'
+              }
+            </td>
+            <td class="px-4 py-3 text-sm text-gray-300">
+              <button 
+                onclick="openEditModal(${item.id})" 
+                class="text-blue-400 hover:text-blue-300 mr-3"
+              >
+                Modifica
+              </button>
+              <button 
+                onclick="openDeleteModal(${item.id})" 
+                class="text-red-400 hover:text-red-300"
+              >
+                Elimina
+              </button>
+            </td>
+          `;
+          
+          contentTableBody.appendChild(row);
+        });
+      }
+      
+      // Filtra i contenuti
+      function filterContent(query) {
+        query = query.toLowerCase().trim();
+        
+        if (!query) {
+          displayContent(allContent);
+          return;
+        }
+        
+        const filteredContent = allContent.filter(item => {
+          return item.title.toLowerCase().includes(query) || 
+                 item.genre.toLowerCase().includes(query) || 
+                 (item.description && item.description.toLowerCase().includes(query)) ||
+                 (item.director && item.director.toLowerCase().includes(query)) ||
+                 (item.cast && item.cast.toLowerCase().includes(query));
+        });
+        
+        displayContent(filteredContent);
+        
+        contentListStatus.textContent = `Trovati ${filteredContent.length} risultati per "${query}"`;
+        
+        // Nascondi il messaggio dopo 3 secondi
+        setTimeout(() => {
+          contentListStatus.textContent = '';
+        }, 3000);
+      }
+      
+      // Apre il modal di modifica
+      function openEditModal(id) {
+        const item = allContent.find(content => content.id === id);
+        
+        if (!item) {
+          console.error('Content not found:', id);
+          return;
+        }
+        
+        // Popola il form
+        document.getElementById('editContentId').value = item.id;
+        document.getElementById('editTitle').value = item.title || '';
+        document.getElementById('editDescription').value = item.description || '';
+        document.getElementById('editGenre').value = item.genre || '';
+        document.getElementById('editReleaseYear').value = item.release_year || '';
+        document.getElementById('editDuration').value = item.duration || '';
+        document.getElementById('editDirector').value = item.director || '';
+        document.getElementById('editCast').value = item.cast || '';
+        document.getElementById('editImagePath').value = item.image_path || '';
+        document.getElementById('editTrailerUrl').value = item.trailer_url || '';
+        document.getElementById('editType').value = item.type || 'movie';
+        document.getElementById('editRentPrice').value = item.rent_price || '3.99';
+        document.getElementById('editRentableCheckbox').checked = !!item.rentable;
+        
+        // Mostra il modal
+        editModal.classList.remove('hidden');
+        editModal.classList.add('flex');
+      }
+      
+      // Apre il modal di eliminazione
+      function openDeleteModal(id) {
+        contentToDelete = id;
+        
+        // Mostra il modal
+        deleteModal.classList.remove('hidden');
+        deleteModal.classList.add('flex');
+      }
+      
+      // Chiude tutti i modali
+      function closeModals() {
+        editModal.classList.add('hidden');
+        editModal.classList.remove('flex');
+        
+        deleteModal.classList.add('hidden');
+        deleteModal.classList.remove('flex');
+      }
+      
+      // Gestisce la modifica di un contenuto
+      function handleEditContent(e) {
+        e.preventDefault();
+        
+        // Ottieni i dati dal form
+        const formData = new FormData(editContentForm);
+        const id = formData.get('id');
+        
+        const movieData = {
+          title: formData.get('title'),
+          description: formData.get('description'),
+          genre: formData.get('genre'),
+          release_year: parseInt(formData.get('release_year')) || null,
+          duration: parseInt(formData.get('duration')) || null,
+          director: formData.get('director'),
+          cast: formData.get('cast'),
+          image_path: formData.get('image_path'),
+          trailer_url: formData.get('trailer_url'),
+          rentable: formData.has('rentable') ? 1 : 0,
+          rent_price: parseFloat(formData.get('rent_price')) || 3.99,
+          type: formData.get('type')
+        };
+        
+        // Disabilita il pulsante di invio
+        const submitButton = editContentForm.querySelector('button[type="submit"]');
+        const originalText = submitButton.textContent;
+        submitButton.disabled = true;
+        submitButton.innerHTML = `
+          <svg class="animate-spin inline-block h-4 w-4 mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          Salvataggio...
+        `;
+        
+        // Invia la richiesta
+        fetch(`/api/movies/${id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(movieData)
+        })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Failed to update content');
+          }
+          return response.json();
+        })
+        .then(data => {
+          if (data.success) {
+            // Chiudi il modal
+            closeModals();
+            
+            // Ricarica i contenuti
+            loadContent();
+          } else {
+            throw new Error(data.error || 'Errore sconosciuto');
+          }
+        })
+        .catch(error => {
+          console.error('Error updating content:', error);
+          alert(`Errore durante l'aggiornamento del contenuto: ${error.message}`);
+        })
+        .finally(() => {
+          // Riattiva il pulsante
+          submitButton.disabled = false;
+          submitButton.textContent = originalText;
+        });
+      }
+      
+      // Gestisce l'eliminazione di un contenuto
+      function handleDeleteContent() {
+        if (!contentToDelete) return;
+        
+        // Disabilita il pulsante
+        const deleteButton = confirmDeleteButton;
+        const originalText = deleteButton.textContent;
+        deleteButton.disabled = true;
+        deleteButton.innerHTML = `
+          <svg class="animate-spin inline-block h-4 w-4 mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          Eliminazione...
+        `;
+        
+        // Invia la richiesta
+        fetch(`/api/movies/${contentToDelete}`, {
+          method: 'DELETE'
+        })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Failed to delete content');
+          }
+          return response.json();
+        })
+        .then(data => {
+          if (data.success) {
+            // Chiudi il modal
+            closeModals();
+            
+            // Ricarica i contenuti
+            loadContent();
+          } else {
+            throw new Error(data.error || 'Errore sconosciuto');
+          }
+        })
+        .catch(error => {
+          console.error('Error deleting content:', error);
+          alert(`Errore durante l'eliminazione del contenuto: ${error.message}`);
+        })
+        .finally(() => {
+          // Riattiva il pulsante
+          deleteButton.disabled = false;
+          deleteButton.textContent = originalText;
+          
+          // Resetta il contenuto da eliminare
+          contentToDelete = null;
+        });
+      }
+
+      
+      
+      // Logout
+      function logout() {
+  fetch('/logout', {
+    method: 'POST'
+  })
+  .then(response => {
+    if (response.ok) {
+      // Pulisci eventuali dati locali
+      sessionStorage.clear();
+      localStorage.removeItem('userState');
+      
+      
+      window.location.replace('/login?logout=true');
+    } else {
+      console.error('Errore durante il logout');
+    }
+  })
+  .catch(error => {
+    console.error('Errore durante il logout:', error);
+  });
+}
+
+// Verifica immediata dell'autenticazione
+document.addEventListener('DOMContentLoaded', function() {
+  // Verifica sessione all'avvio della pagina
+  checkAuthStatus();
+});
+
+// Controlla se l'utente è autenticato
+function checkAuthStatus() {
+  fetch('/api/user')
+    .then(response => {
+      if (!response.ok) {
+        // Se la risposta non è ok, l'utente non è autenticato
+        redirectToLogin();
+        throw new Error('Non autenticato');
+      }
+      return response.json();
+    })
+    .catch(error => {
+      console.error('Errore verifica autenticazione:', error);
+      redirectToLogin();
+    });
+}
+
+// Reindirizza alla pagina di login
+function redirectToLogin() {
+  // Usa replace per evitare che l'utente possa tornare indietro alla pagina protetta
+  window.location.replace('/login');
+}
+    </script>
+  </body>
+</html>

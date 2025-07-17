@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abbonamento - CineBinge</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/css/main.css">    
+    <link rel="stylesheet" href="/css/subscription.css">
+</head>
+<body class="bg-black text-white min-h-screen flex flex-col subscription-body">
+
+<header class="bg-gradient-to-b from-black to-transparent w-full z-50 top-0 left-0 py-6">
+    <div class="container mx-auto px-4 flex justify-center">
+        <a href="/">
+            <img src="/logo.png" alt="CineBinge" class="w-32" />
+        </a>
+    </div>
+</header>
+
+<main class="flex-grow flex items-center justify-center py-8 relative">
+    <!-- Movie reel decoration left -->
+    <div class="movie-reel fixed left-0 top-0 w-32 h-full opacity-20"></div>
+    <!-- Movie reel decoration right -->
+    <div class="movie-reel fixed right-0 top-0 w-32 h-full opacity-20"></div>
+    
+    <div class="checkout-container max-w-4xl w-full mx-4 rounded-2xl p-8">
+        <h1 class="text-4xl font-bold text-center mb-8 text-white">Completa il tuo Abbonamento</h1>
+        
+        <!-- Messaggi di errore -->
+        <div id="error-container" class="hidden bg-red-900/20 border border-red-500 rounded-lg p-4 mb-6">
+            <p id="error-message" class="text-red-300">Si è verificato un errore durante il caricamento dei dettagli dell'abbonamento.</p>
+            <div class="flex justify-between items-center mt-3">
+                <button id="retry-button" class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors text-sm">Riprova</button>
+                <a href="/subscription/select" class="bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition-colors text-sm">Torna alla selezione piani</a>
+            </div>
+        </div>
+        
+        <div class="grid md:grid-cols-2 gap-8">            <!-- Riepilogo Ordine -->
+            <div class="bg-gradient-to-t from-black to-gray-800 rounded-lg overflow-hidden">
+                <div class="bg-zinc-700 px-6 py-4">
+                    <h4 class="text-xl font-semibold text-white">Riepilogo Ordine</h4>
+                </div>
+                <div class="p-6">
+                    <div class="space-y-3 text-gray-300">
+                        <div class="flex justify-between">
+                            <span><strong>Piano selezionato:</strong></span>
+                            <span id="selected-plan-name" class="text-white">Premium</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span><strong>Prezzo mensile:</strong></span>
+                            <span class="text-white">€<span id="selected-plan-price">14.99</span></span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span><strong>Durata:</strong></span>
+                            <span class="text-white">1 mese (rinnovo automatico)</span>
+                        </div>
+                    </div>
+                    <hr class="border-zinc-600 my-4">
+                    <div class="flex justify-between text-xl font-bold text-white">
+                        <span>Totale da pagare oggi:</span>
+                        <span>€<span id="total-price">14.99</span></span>
+                    </div>
+                </div>
+            </div>
+              <!-- Dettagli di Pagamento -->
+            <div class="bg-gradient-to-t from-black to-gray-800 rounded-lg p-6">
+                <h4 class="text-xl font-semibold text-white mb-6">Dettagli di Pagamento</h4>
+                <form id="payment-form" class="space-y-4">
+                    <input type="hidden" id="subscription-id" name="subscription-id" value="">
+                    <input type="hidden" id="subscription-type" name="subscription-type" value="premium">
+                    <input type="hidden" id="subscription-price" name="subscription-price" value="14.99">
+                      <div>
+                        <label for="card-name" class="block text-sm font-medium text-gray-300 mb-2">Nome sulla carta</label>
+                        <input type="text" id="card-name" placeholder="Mario Rossi" required 
+                               class="w-full px-4 py-3 bg-zinc-700 border border-zinc-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                               pattern="[A-Za-z\s]+" title="Solo lettere e spazi consentiti" maxlength="50">
+                    </div>
+                    
+                    <div>
+                        <label for="card-number" class="block text-sm font-medium text-gray-300 mb-2">Numero della carta</label>
+                        <input type="text" id="card-number" placeholder="1234 5678 9012 3456" required 
+                               class="w-full px-4 py-3 bg-zinc-700 border border-zinc-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                               maxlength="19" inputmode="numeric">
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4">                        <div>
+                            <label for="expiry-date" class="block text-sm font-medium text-gray-300 mb-2">Data di scadenza</label>
+                            <input type="text" id="expiry-date" placeholder="MM/AA" required 
+                                   class="w-full px-4 py-3 bg-zinc-700 border border-zinc-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                                   maxlength="5" inputmode="numeric">
+                        </div>
+                        <div>
+                            <label for="cvv" class="block text-sm font-medium text-gray-300 mb-2">CVV</label>
+                            <input type="text" id="cvv" placeholder="123" required 
+                                   class="w-full px-4 py-3 bg-zinc-700 border border-zinc-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                                   maxlength="3" inputmode="numeric" pattern="[0-9]{3}" title="Inserisci esattamente 3 cifre">
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center">
+                        <input type="checkbox" id="save-card" class="h-4 w-4 text-red-600 bg-zinc-700 border-zinc-600 rounded focus:ring-red-500">
+                        <label for="save-card" class="ml-2 text-sm text-gray-300">Salva questa carta per pagamenti futuri</label>
+                    </div>
+                    
+                    <button type="submit" class="w-full bg-green-600 text-white py-3 px-6 rounded-md hover:bg-green-700 transition-colors font-semibold text-lg">
+                        Paga ora
+                    </button>
+                    
+                    <p class="text-center text-xs text-gray-400 mt-4">
+                        I tuoi dati di pagamento sono protetti con crittografia sicura.
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+<footer class="bg-gradient-to-t from-black to-gray-800 py-3 mt-auto">
+    <div class="container mx-auto text-center">
+        <p class="text-gray-400 text-xs">© 2025 CineBinge. Tutti i diritti riservati.</p>
+        <div class="flex justify-center space-x-3 mt-2">
+            <a href="/about" class="text-xs text-white hover:text-red-500 transition-colors">Chi Siamo</a>
+            <a href="/about" class="text-xs text-white hover:text-red-500 transition-colors">Privacy</a>
+            <a href="/about" class="text-xs text-white hover:text-red-500 transition-colors">Termini e Condizioni</a>
+        </div>
+    </div>
+</footer>
+  
+  
+      
+  
+
+
+<script>
+    // Informazioni predefinite per il piano premium
+    const DEFAULT_PREMIUM_PLAN = {
+        id: 'premium',
+        name: 'premium',
+        price: 14.99,
+        description: 'Esperienza completa con contenuti esclusivi',
+        features: 'Accesso illimitato al catalogo, Streaming in 4K Ultra HD, Contenuti esclusivi, Accesso anticipato ai nuovi titoli',
+        duration_days: 30
+    };
+      // Elementi DOM
+    const errorContainer = document.getElementById('error-container');
+    const errorMessage = document.getElementById('error-message');
+    const retryButton = document.getElementById('retry-button');
+    
+    // Funzione per mostrare errori
+    function showError(message) {
+        errorMessage.textContent = message;
+        errorContainer.classList.remove('hidden');
+    }
+    
+    // Funzione per nascondere errori
+    function hideError() {
+        errorContainer.classList.add('hidden');
+    }
+    
+    // Ottieni l'ID dell'abbonamento dall'URL
+    function getSubscriptionIdFromUrl() {
+        const url = window.location.pathname;
+        const parts = url.split('/');
+        if (parts.length >= 3) {
+            return parts[parts.length - 1];
+        }
+        return null;
+    }
+      // Aggiorna i dettagli dell'abbonamento nella pagina
+    function updateSubscriptionDetails(subscription) {
+        const planName = subscription.name.charAt(0).toUpperCase() + subscription.name.slice(1);
+        const price = parseFloat(subscription.price).toFixed(2);
+        
+        // Aggiorna l'interfaccia
+        document.getElementById('selected-plan-name').textContent = planName;
+        document.getElementById('selected-plan-price').textContent = price;
+        document.getElementById('total-price').textContent = price;
+        
+        // Aggiorna i campi nascosti del form
+        document.getElementById('subscription-id').value = subscription.id;
+        document.getElementById('subscription-type').value = subscription.name;
+        document.getElementById('subscription-price').value = subscription.price;
+        
+        hideError();
+    }
+      // Cerca l'abbonamento premium per nome se fallisce il caricamento per ID
+    async function fetchPremiumPlanByName() {
+        try {
+            const response = await fetch('/subscription/api/subscriptions');
+            if (!response.ok) {
+                throw new Error('Errore durante il recupero degli abbonamenti');
+            }
+            
+            const subscriptions = await response.json();
+            const premiumPlan = subscriptions.find(sub => sub.name === 'premium');
+            
+            if (premiumPlan) {
+                updateSubscriptionDetails(premiumPlan);
+                return true;
+            } else {
+        console.warn('Piano premium non trovato nella lista degli abbonamenti');
+                return false;
+            }
+        } catch (error) {
+            return false;
+        }
+    }
+      // Carica i dettagli dell'abbonamento
+    async function loadSubscriptionDetails() {
+        hideError();
+        
+        const subscriptionId = getSubscriptionIdFromUrl();
+        
+        // Caso speciale per "premium" (non un ID numerico)
+        if (subscriptionId === 'premium') {
+            const success = await fetchPremiumPlanByName();
+            if (!success) {
+                updateSubscriptionDetails(DEFAULT_PREMIUM_PLAN);
+            }
+            return;
+        }
+        
+        if (subscriptionId) {
+            document.getElementById('subscription-id').value = subscriptionId;
+            
+            try {
+                // Ottieni i dettagli dell'abbonamento dal backend
+                const response = await fetch(`/subscription/api/subscriptions/${subscriptionId}`);
+                
+                if (!response.ok) {
+                    throw new Error('Errore durante il recupero dei dettagli dell\'abbonamento');
+                }
+                
+                const subscription = await response.json();
+                
+                if (subscription) {
+                    updateSubscriptionDetails(subscription);
+                } else {
+                    throw new Error('Dettagli abbonamento non validi');
+                }
+            } catch (error) {
+                // Prova a cercare il piano premium per nome
+                const success = await fetchPremiumPlanByName();
+                
+                if (!success) {
+                    updateSubscriptionDetails(DEFAULT_PREMIUM_PLAN);
+                    showError('Non è stato possibile recuperare i dettagli esatti dell\'abbonamento. Mostriamo le informazioni predefinite per il piano Premium.');
+                }
+            }
+        } else {
+            // URL senza ID, mostro comunque i dettagli premium predefiniti
+            updateSubscriptionDetails(DEFAULT_PREMIUM_PLAN);
+        }
+    }    // Inizializza la pagina
+    window.onload = function() {
+        // Rimuovi qualsiasi overlay bloccante
+        removeBlockingOverlays();
+        
+        // Forza la visibilità del contenuto
+        forceShowContent();
+        
+        loadSubscriptionDetails();
+        
+        // Registra il gestore per il pulsante di riprova
+        retryButton.addEventListener('click', function() {
+            loadSubscriptionDetails();
+        });
+        
+        // Aggiungi validazione ai campi del form
+        setupFormValidation();
+    };
+    
+    // Configura la validazione del form
+    function setupFormValidation() {
+        // Validazione nome sulla carta (solo lettere e spazi)
+        const cardNameInput = document.getElementById('card-name');
+        cardNameInput.addEventListener('input', function(e) {
+            // Rimuovi caratteri non validi
+            this.value = this.value.replace(/[^A-Za-zÀ-ÿ\s]/g, '');
+            
+            // Limita la lunghezza e rimuovi spazi multipli
+            this.value = this.value.replace(/\s+/g, ' ').substring(0, 50);
+        });
+        
+        // Formattazione numero di carta
+        const cardNumberInput = document.getElementById('card-number');
+        cardNumberInput.addEventListener('input', function(e) {
+            // Rimuovi tutto tranne i numeri
+            let value = this.value.replace(/\D/g, '');
+            
+            // Limita a 16 cifre
+            value = value.substring(0, 16);
+            
+            // Aggiungi spazi ogni 4 cifre
+            value = value.replace(/(\d{4})(?=\d)/g, '$1 ');
+            
+            this.value = value;
+        });
+        
+        // Formattazione data di scadenza (MM/AA)
+        const expiryDateInput = document.getElementById('expiry-date');
+        expiryDateInput.addEventListener('input', function(e) {
+            // Rimuovi tutto tranne i numeri
+            let value = this.value.replace(/\D/g, '');
+            
+            // Limita a 4 cifre
+            value = value.substring(0, 4);
+            
+            // Aggiungi slash dopo il secondo carattere
+            if (value.length >= 2) {
+                value = value.substring(0, 2) + '/' + value.substring(2);
+            }
+            
+            this.value = value;
+        });
+        
+        // Validazione data di scadenza
+        expiryDateInput.addEventListener('blur', function(e) {
+            const value = this.value;
+            if (value.length === 5) {
+                const month = parseInt(value.substring(0, 2));
+                const year = parseInt(value.substring(3, 5));
+                const currentYear = new Date().getFullYear() % 100;
+                const currentMonth = new Date().getMonth() + 1;
+                
+                if (month < 1 || month > 12) {
+                    this.setCustomValidity('Mese non valido. Inserisci un mese tra 01 e 12.');
+                } else if (year < currentYear || (year === currentYear && month < currentMonth)) {
+                    this.setCustomValidity('La carta è scaduta. Inserisci una data futura.');
+                } else {
+                    this.setCustomValidity('');
+                }
+            } else {
+                this.setCustomValidity('Formato data non valido. Usa MM/AA.');
+            }
+        });
+        
+        // Validazione CVV (solo 3 cifre)
+        const cvvInput = document.getElementById('cvv');
+        cvvInput.addEventListener('input', function(e) {
+            // Rimuovi tutto tranne i numeri
+            this.value = this.value.replace(/\D/g, '').substring(0, 3);
+        });
+        
+        // Validazione CVV al blur
+        cvvInput.addEventListener('blur', function(e) {
+            if (this.value.length !== 3) {
+                this.setCustomValidity('Il CVV deve essere di esattamente 3 cifre.');
+            } else {
+                this.setCustomValidity('');
+            }
+        });
+    }
+    
+    // Rimuovi overlay bloccanti che potrebbero essere rimasti da altre pagine
+    function removeBlockingOverlays() {
+        // Rimuovi overlay di loading rimasti
+        const loadingOverlays = document.querySelectorAll('[id*="loading"], [id*="overlay"], .fixed.inset-0');
+        loadingOverlays.forEach(overlay => {
+            if (overlay !== document.querySelector('header') && overlay !== document.querySelector('footer')) {
+                const style = getComputedStyle(overlay);
+                if (style.backgroundColor && (style.backgroundColor.includes('0.7') || style.backgroundColor.includes('0.8'))) {
+                    overlay.remove();
+                }
+            }
+        });
+        
+        // Forza la rimozione di qualsiasi overlay grigio
+        setTimeout(() => {
+            const grayOverlays = document.querySelectorAll('.fixed');
+            grayOverlays.forEach(overlay => {
+                if (overlay !== document.querySelector('header') && overlay !== document.querySelector('footer')) {
+                    const style = getComputedStyle(overlay);
+                    if (style.backgroundColor.includes('0.7') || style.backgroundColor.includes('0.8') || style.opacity === '0.7') {
+                        overlay.remove();
+                    }
+                }
+            });
+        }, 100);
+    }
+    
+    // Forza la visibilità del contenuto principale
+    function forceShowContent() {
+        const main = document.querySelector('main');
+        const body = document.querySelector('body');
+        
+        if (main) {
+            main.style.visibility = 'visible';
+            main.style.opacity = '1';
+            main.style.pointerEvents = 'auto';
+        }
+        
+        if (body) {
+            body.style.pointerEvents = 'auto';
+            body.style.overflow = 'auto';
+        }
+    }    // Gestione del form di pagamento
+    document.getElementById('payment-form').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        // Validazione completa del form prima dell'invio
+        if (!validateForm()) {
+            return;
+        }
+        
+        // Ottieni i dati del form
+        const paymentData = {
+            subscriptionId: document.getElementById('subscription-id').value,
+            subscriptionType: document.getElementById('subscription-type').value,
+            subscriptionPrice: document.getElementById('subscription-price').value,
+            cardName: document.getElementById('card-name').value.trim(),
+            cardNumber: document.getElementById('card-number').value.replace(/\s/g, ''), // Rimuovi spazi
+            expiryDate: document.getElementById('expiry-date').value,
+            cvv: document.getElementById('cvv').value,
+            saveCard: document.getElementById('save-card').checked,
+            paymentMethod: 'card'
+        };
+        
+        // Mostra un indicatore di caricamento sul pulsante e disabilitalo
+        const submitButton = this.querySelector('button[type="submit"]');
+        const originalText = submitButton.textContent;
+        submitButton.disabled = true;
+        submitButton.innerHTML = '<div class="animate-spin rounded-full h-5 w-5 border-b-2 border-white inline-block mr-2"></div>Elaborazione...';
+        
+        try {
+            // Invia i dati al server per elaborare il pagamento
+            const response = await fetch('/subscription/process-payment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(paymentData)
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                // Mostra un messaggio di successo
+                alert("Pagamento elaborato con successo! Il tuo abbonamento è stato attivato.");
+                
+                // Reindirizza alla pagina di successo
+                window.location.href = data.redirectUrl || "/subscription/success";
+            } else {
+                // Mostra un messaggio di errore
+                showError("Errore durante l'elaborazione del pagamento: " + (data.message || "Si è verificato un errore"));
+                
+                // Riabilita il pulsante di invio
+                submitButton.disabled = false;
+                submitButton.textContent = originalText;
+            }
+        } catch (error) {
+            console.error('Errore durante l\'elaborazione del pagamento:', error);
+            showError("Si è verificato un errore durante l'elaborazione del pagamento. Riprova più tardi.");
+            
+            // Riabilita il pulsante di invio
+            submitButton.disabled = false;
+            submitButton.textContent = originalText;
+        }
+    });
+    
+    // Funzione di validazione completa del form
+    function validateForm() {
+        let isValid = true;
+        const errors = [];
+        
+        // Validazione nome
+        const cardName = document.getElementById('card-name').value.trim();
+        if (cardName.length < 2) {
+            errors.push('Il nome sulla carta deve contenere almeno 2 caratteri.');
+            isValid = false;
+        }
+        
+        // Validazione numero carta
+        const cardNumber = document.getElementById('card-number').value.replace(/\s/g, '');
+        if (cardNumber.length !== 16 || !/^\d{16}$/.test(cardNumber)) {
+            errors.push('Il numero della carta deve contenere esattamente 16 cifre.');
+            isValid = false;
+        }
+        
+        // Validazione data di scadenza
+        const expiryDate = document.getElementById('expiry-date').value;
+        if (!/^\d{2}\/\d{2}$/.test(expiryDate)) {
+            errors.push('La data di scadenza deve essere nel formato MM/AA.');
+            isValid = false;
+        } else {
+            const month = parseInt(expiryDate.substring(0, 2));
+            const year = parseInt(expiryDate.substring(3, 5));
+            const currentYear = new Date().getFullYear() % 100;
+            const currentMonth = new Date().getMonth() + 1;
+            
+            if (month < 1 || month > 12) {
+                errors.push('Mese non valido nella data di scadenza.');
+                isValid = false;
+            } else if (year < currentYear || (year === currentYear && month < currentMonth)) {
+                errors.push('La carta è scaduta.');
+                isValid = false;
+            }
+        }
+        
+        // Validazione CVV
+        const cvv = document.getElementById('cvv').value;
+        if (!/^\d{3}$/.test(cvv)) {
+            errors.push('Il CVV deve contenere esattamente 3 cifre.');
+            isValid = false;
+        }
+        
+        // Mostra errori se presenti
+        if (!isValid) {
+            showError('Errori di validazione: ' + errors.join(' '));
+        }
+        
+        return isValid;
+    }
+</script>
+</body>
+</html>

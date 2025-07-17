@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/css/auth.css">
+    <title>CineBinge - Registrati</title>
+  </head>
+  <body class="bg-black text-white min-h-screen flex flex-col auth-body">
+    <div class="content-wrapper flex flex-col min-h-screen">
+      <header class="bg-gradient-to-b from-black to-transparent fixed w-full z-50 top-0 left-0">
+        <div class="container mx-auto px-4 py-6 flex justify-between items-center">
+          <a href="/">
+            <img class="w-32" src="/logo.png" alt="CineBinge" />
+          </a>
+          <div class="flex gap-4">
+            <a href="/" class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors">
+              Home
+            </a>
+            <a href="/login" class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors">
+              Accedi
+            </a>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Content -->
+      <section class="flex-grow bg-cover bg-center bg-no-repeat relative"
+               style="background-image: url('/sfondo.png'); background-attachment: fixed;">
+      <!-- Overlay gradients  -->
+      <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/70 to-black/80"></div>
+      <div class="absolute inset-0 bg-gradient-to-r from-red-900/20 via-transparent to-blue-900/20"></div>
+      
+      <!-- Particelle animate di sfondo -->
+      <div class="absolute inset-0 z-10">
+        <div class="particles">
+          <div class="particle"></div>
+          <div class="particle"></div>
+          <div class="particle"></div>
+          <div class="particle"></div>
+          <div class="particle"></div>
+        </div>
+      </div>
+      
+      <main class="flex-1 flex flex-col justify-center items-center relative z-20 px-4 pt-24 pb-24">
+        <!-- Icona cinematografica animata -->
+        <div class="mb-8 animate-float">
+          <div class="w-20 h-20 mx-auto mb-4 relative">
+            <svg class="w-full h-full text-red-500 icon-float" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M18 4l2 4h-3l-2-4h-2l2 4h-3l-2-4H8l2 4H7L5 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4h-4z"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="register-form p-6 rounded-xl w-full max-w-sm animate-fade-in-up">
+          <h1 class="text-white text-2xl font-bold mb-3 text-center title-glow">
+            Unisciti a CineBinge
+          </h1>
+          <p class="text-gray-300 text-center mb-6 text-base">
+            Inizia la tua avventura cinematografica oggi stesso
+          </p>
+
+          <!-- Status message container -->
+          <div id="registrationStatus" class="hidden mb-4"></div>
+
+          <form class="flex flex-col gap-y-4" id="registrationForm">
+            <div class="relative animate-slide-in-left" style="animation-delay: 0.2s;">
+              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"></path>
+                </svg>
+              </div>
+              <input
+                type="email"
+                name="email"
+                id="email"
+                placeholder="Email"
+                class="register-input w-full pl-10 pr-3 py-2 rounded-lg text-white text-sm placeholder-gray-400 focus:outline-none"
+                required
+              />
+            </div>
+
+            <div class="relative animate-slide-in-left" style="animation-delay: 0.4s;">
+              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                </svg>
+              </div>
+              <input
+                type="password"
+                name="password"
+                id="password"
+                placeholder="Password"
+                class="register-input w-full pl-10 pr-3 py-2 rounded-lg text-white text-sm placeholder-gray-400 focus:outline-none"
+                required
+              />
+            </div>
+
+            <div class="relative animate-slide-in-left" style="animation-delay: 0.6s;">
+              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+              </div>
+              <input
+                type="password"
+                name="confirmPassword"
+                id="confirmPassword"
+                placeholder="Conferma Password"
+                class="register-input w-full pl-10 pr-3 py-2 rounded-lg text-white text-sm placeholder-gray-400 focus:outline-none"
+                required
+              />
+            </div>
+
+            <!-- Sezione piani di abbonamento  -->
+            <div class="w-full animate-slide-in-left" style="animation-delay: 0.8s;">
+              <h3 class="text-white text-base font-semibold mb-3 text-center">
+                Scegli il tuo piano
+              </h3>
+              <div class="subscription-grid grid gap-3">
+                <!-- Piano Base -->
+                <div class="subscription-card base-plan rounded-lg p-3 cursor-pointer relative" onclick="selectPlan('base')">
+                  <input type="radio" id="base" name="subscription" value="base" class="hidden" required>
+                  <div class="text-center">
+                    <h4 class="text-white text-lg font-bold mb-1">Base</h4>
+                    <div class="text-green-400 text-base font-semibold mb-2">Gratuito</div>
+                    <ul class="text-gray-300 text-xs space-y-1 mb-2">
+                      <li>✓ Noleggio film a pagamento</li>
+                    </ul>
+                  </div>
+                </div>
+                <!-- Piano Premium -->
+                <div class="subscription-card premium-plan premium rounded-lg p-3 cursor-pointer relative" onclick="selectPlan('premium')">
+                  <div class="premium-badge">Consigliato</div>
+                  <input type="radio" id="premium" name="subscription" value="premium" class="hidden" checked>
+                  <div class="text-center">
+                    <h4 class="text-white text-lg font-bold mb-1">Premium</h4>
+                    <div class="text-yellow-400 text-base font-semibold mb-2">€14.99/mese</div>
+                    <ul class="text-gray-300 text-xs space-y-1 mb-2">
+                      <li>✓ Accesso illimitato a tutti i contenuti</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              class="register-button w-full py-2 rounded-lg text-white text-base font-semibold relative overflow-hidden animate-slide-in-left"
+              style="animation-delay: 1s;"
+            >
+              <span class="relative z-10">Registrati</span>
+            </button>
+          </form>
+
+          <div class="mt-4 text-center animate-slide-in-left" style="animation-delay: 1.2s;">
+            <p class="text-gray-300 text-sm mb-2">
+              Hai già un account?
+            </p>
+            <a href="/login" class="login-link text-red-400 hover:text-red-300 text-base font-medium">
+              Accedi
+            </a>
+          </div>
+        </div>
+      </main>
+    </section>
+
+    <footer class="bg-gradient-to-t from-black to-gray-800 py-6 w-full">
+  <div class="container mx-auto text-center">
+    <p class="text-gray-400 text-xs">© 2025 CineBinge. Tutti i diritti riservati.</p>
+    <div class="flex justify-center space-x-3 mt-2">
+      <a href="/about" class="text-xs text-white hover:text-red-500 transition-colors">Chi Siamo</a>
+      <a href="/about" class="text-xs text-white hover:text-red-500 transition-colors">Privacy</a>
+      <a href="/about" class="text-xs text-white hover:text-red-500 transition-colors">Termini e Condizioni</a>
+    </div>
+  </div>
+</footer>
+  </div>
+    <script>
+      // Funzione per selezionare un piano
+      function selectPlan(planType) {
+        // Rimuovi selezione precedente
+        document.querySelectorAll('.subscription-card').forEach(card => {
+          card.classList.remove('selected');
+        });
+        
+        // Aggiungi selezione al piano corrente
+        const selectedCard = document.querySelector(`.${planType}-plan`);
+        selectedCard.classList.add('selected');
+        
+        // Seleziona il radio button
+        document.getElementById(planType).checked = true;
+        
+        // Aggiorna il testo del pulsante in base al piano
+        const submitButton = document.querySelector('button[type="submit"] span');
+        if (planType === 'premium') {
+          submitButton.textContent = 'Inizia con Premium';
+        } else {
+          submitButton.textContent = 'Inizia l\'Avventura';
+        }
+      }
+
+      // Funzione per mostrare messaggi di stato
+      function showStatusMessage(message, type) {
+        const statusElement = document.getElementById('registrationStatus');
+        statusElement.className = `status-message px-6 py-4 rounded-xl mb-6 text-center font-medium ${type === 'success' ? 'status-success' : 'status-error'}`;
+        statusElement.textContent = message;
+        statusElement.classList.remove('hidden');
+        
+        // Auto-hide success messages after 3 seconds
+        if (type === 'success') {
+          setTimeout(() => {
+            statusElement.classList.add('hidden');
+          }, 3000);
+        }
+      }
+
+      // Validazione password in tempo reale
+      function validatePassword(password) {
+        const requirements = {
+          length: password.length >= 8,
+          uppercase: /[A-Z]/.test(password),
+          lowercase: /[a-z]/.test(password),
+          number: /\d/.test(password),
+          special: /[!@#$%^&*(),.?":{}|<>]/.test(password)
+        };
+        
+        return requirements;
+      }
+
+      // Validazione email
+      function isValidEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+      }
+
+      document.addEventListener('DOMContentLoaded', function() {
+        // Riferimenti agli elementi del DOM
+        const registrationForm = document.getElementById('registrationForm');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const confirmPasswordInput = document.getElementById('confirmPassword');
+        const submitButton = registrationForm.querySelector('button[type="submit"]');
+        
+        // Seleziona piano premium di default
+        selectPlan('premium');
+
+        // Effetti di focus migliorati per gli input
+        [emailInput, passwordInput, confirmPasswordInput].forEach(input => {
+          input.addEventListener('focus', function() {
+            this.parentElement.style.transform = 'scale(1.02)';
+            this.parentElement.style.transition = 'transform 0.3s ease';
+          });
+          
+          input.addEventListener('blur', function() {
+            this.parentElement.style.transform = 'scale(1)';
+          });
+        });
+
+        // Validazione password in tempo reale
+        passwordInput.addEventListener('input', function() {
+          const password = this.value;
+          const requirements = validatePassword(password);
+          
+          // Cambia colore del bordo in base alla forza della password
+          if (password.length === 0) {
+            this.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+          } else if (Object.values(requirements).every(req => req)) {
+            this.style.borderColor = 'rgba(16, 185, 129, 0.8)';
+          } else if (requirements.length && requirements.lowercase) {
+            this.style.borderColor = 'rgba(255, 193, 7, 0.8)';
+          } else {
+            this.style.borderColor = 'rgba(239, 68, 68, 0.8)';
+          }
+        });
+
+        // Validazione conferma password
+        confirmPasswordInput.addEventListener('input', function() {
+          const password = passwordInput.value;
+          const confirmPassword = this.value;
+          
+          if (confirmPassword.length === 0) {
+            this.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+          } else if (password === confirmPassword) {
+            this.style.borderColor = 'rgba(16, 185, 129, 0.8)';
+          } else {
+            this.style.borderColor = 'rgba(239, 68, 68, 0.8)';
+          }
+        });
+
+        // Gestione invio form
+        registrationForm.addEventListener("submit", async (e) => {
+          e.preventDefault();
+          
+          // Nascondi eventuali messaggi di errore precedenti
+          document.getElementById('registrationStatus').classList.add('hidden');
+          
+          // Ottieni i dati dal form
+          const formData = new FormData(e.target);
+          const email = formData.get("email").trim();
+          const password = formData.get("password");
+          const confirmPassword = formData.get("confirmPassword");
+          const subscriptionType = formData.get("subscription");
+          
+          // Validazione client-side
+          if (!email || !password || !confirmPassword) {
+            showStatusMessage('Per favore compila tutti i campi', 'error');
+            return;
+          }
+          
+          if (!isValidEmail(email)) {
+            showStatusMessage('Inserisci un indirizzo email valido', 'error');
+            return;
+          }
+          
+          const passwordReqs = validatePassword(password);
+          if (!passwordReqs.length) {
+            showStatusMessage('La password deve essere di almeno 8 caratteri', 'error');
+            return;
+          }
+          
+          if (password !== confirmPassword) {
+            showStatusMessage('Le password non corrispondono', 'error');
+            return;
+          }
+          
+          // Animazione di caricamento
+          const originalButtonContent = submitButton.innerHTML;
+          submitButton.disabled = true;
+          submitButton.innerHTML = `
+            <span class="flex items-center justify-center">
+              <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              Creazione account...
+            </span>
+          `;
+          
+          const isPremium = subscriptionType === "premium";
+          
+          try {
+            const response = await fetch("/register", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                email: email,
+                password: password,
+                confirmPassword: confirmPassword,
+                subscription: isPremium ? "senza_abbonamento" : "base",
+                needsPayment: isPremium
+              }),
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+              // Animazione di successo
+              submitButton.innerHTML = `
+                <span class="flex items-center justify-center">
+                  <svg class="w-5 h-5 mr-2 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  Account creato!
+                </span>
+              `;
+              
+              if (isPremium) {
+                showStatusMessage('Account creato! Reindirizzamento al pagamento...', 'success');
+                setTimeout(() => {
+                  window.location.href = "/subscription/checkout/premium";
+                }, 1500);
+              } else {
+                showStatusMessage('Registrazione completata! Benvenuto in CineBinge!', 'success');
+                setTimeout(() => {
+                  window.location.href = "/dashboard";
+                }, 1500);
+              }
+            } else {
+              showStatusMessage(data.message || "Registrazione fallita. Riprova.", 'error');
+              resetButton();
+            }
+          } catch (error) {
+            console.error("Errore durante la registrazione:", error);
+            showStatusMessage("Si è verificato un errore durante la registrazione. Riprova più tardi.", 'error');
+            resetButton();
+          }
+        });
+
+        // Funzione per resettare il pulsante
+        function resetButton() {
+          submitButton.disabled = false;
+          const selectedPlan = document.querySelector('input[name="subscription"]:checked').value;
+          const buttonText = selectedPlan === 'premium' ? 'Inizia con Premium' : 'Inizia l\'Avventura';
+          submitButton.innerHTML = `<span class="relative z-10">${buttonText}</span>`;
+        }
+
+        // Effetto parallax leggero per lo sfondo
+        window.addEventListener('scroll', function() {
+          const scrolled = window.pageYOffset;
+          const background = document.querySelector('section[style*="background-image"]');
+          if (background) {
+            background.style.transform = `translateY(${scrolled * 0.3}px)`;
+          }
+        });
+
+        // Inizializza le animazioni quando gli elementi entrano nella viewport
+        const observerOptions = {
+          threshold: 0.1,
+          rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.style.animationPlayState = 'running';
+            }
+          });
+        }, observerOptions);
+
+        // Osserva gli elementi animati
+        document.querySelectorAll('.animate-slide-in-left').forEach(el => {
+          el.style.animationPlayState = 'paused';
+          observer.observe(el);
+        });
+      });
+
+      // Aggiungi l'animazione shake ai CSS globali
+      const style = document.createElement('style');
+      style.textContent = `
+        @keyframes shake {
+          0%, 100% { transform: translateX(0); }
+          10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+          20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+      `;
+      document.head.appendChild(style);
+    </script>
+  </body>
+</html>

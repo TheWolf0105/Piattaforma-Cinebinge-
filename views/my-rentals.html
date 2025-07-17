@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="it">  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/my-rentals.css">
+    <title>CineBinge - I Miei Noleggi</title>
+    
+  </head>
+  <body class="bg-black text-white min-h-screen flex flex-col my-rentals-body">
+
+    
+    <header class="bg-gradient-to-b from-black to-transparent fixed w-full z-50 top-0 left-0">
+      <div class="container mx-auto px-4 py-6 flex justify-between items-center">
+        <a href="/">
+          <img class="w-32" src="/logo.png" alt="CineBinge" />
+        </a>
+        <div class="flex gap-4 items-center">
+          <a href="/dashboard" class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors text-sm">
+            Dashboard
+          </a>
+          <a href="/browse" class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors text-sm">
+            Sfoglia
+          </a>
+
+          <button onclick="logout()" class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors text-xs">
+            Logout
+          </button>
+        </div>
+      </div>    </header>    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8 pt-32 flex-grow">
+      <div class="max-w-4xl mx-auto">        <h1 class="text-white text-4xl font-bold mb-8 text-center">I Miei Noleggi</h1>
+        
+        <!-- risultati -->
+        <div id="rentalsGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <!-- Le card dei noleggi verranno generate qui -->        </div>
+          <!-- Messaggio nessun noleggio -->
+        <div id="noRentalsMessage" class="hidden text-center py-12 bg-black bg-opacity-70 rounded-lg p-8">
+          <svg class="mx-auto h-16 w-16 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          <p class="mt-4 text-white text-lg font-medium">Non hai noleggiato alcun contenuto.</p>
+          <a href="/browse" class="inline-block mt-6 bg-red-600 text-white px-6 py-3 rounded-md hover:bg-red-700 transition-colors font-bold">
+            Sfoglia Contenuti
+          </a>
+        </div>        <!-- suggerimento abbonamento -->
+        <div id="subscriptionSuggestion" class="hidden mt-12 bg-black bg-opacity-85 rounded-lg p-8 text-center border-2 border-red-500 shadow-lg shadow-red-500/30">
+          <h2 class="text-2xl font-bold mb-4 text-white">Vuoi accesso illimitato a tutti i contenuti?</h2>
+          <p class="text-white text-lg mb-6">Con un abbonamento premium, puoi guardare tutti i film e le serie TV senza limiti!</p>
+          <a href="/subscription/select" class="bg-red-600 text-white px-8 py-4 rounded-md hover:bg-red-700 transition-colors text-lg font-bold inline-block">
+            Passa a premium abbonati
+          </a>
+        </div>
+      </div>
+    </main>    <footer class="bg-gradient-to-t from-black to-gray-800 py-3 mt-auto">
+      <div class="container mx-auto text-center">
+        <p class="text-gray-400 text-xs">© 2025 CineBinge. Tutti i diritti riservati.</p>
+        <div class="flex justify-center space-x-3 mt-2">
+          <a href="/about" class="text-xs text-white hover:text-red-500 transition-colors">Chi Siamo</a>
+          <a href="/about" class="text-xs text-white hover:text-red-500 transition-colors">Privacy</a>
+          <a href="/about" class="text-xs text-white hover:text-red-500 transition-colors">Termini e Condizioni</a>
+        </div>
+      </div>
+    </footer><script>
+      // Elementi DOM
+      const rentalsGrid = document.getElementById('rentalsGrid');
+      const noRentalsMessage = document.getElementById('noRentalsMessage');
+      const subscriptionSuggestion = document.getElementById('subscriptionSuggestion');
+      
+      // Variabili
+      let rentals = [];
+      let userData = null;      // Inizializzazione
+      document.addEventListener('DOMContentLoaded', () => {
+        // Rimuovi qualsiasi overlay o elemento bloccante
+        removeAnyBlockingOverlays();
+        
+        // Forza la visibilità del contenuto
+        setTimeout(() => {
+          forceShowContent();
+        }, 100);
+        
+        // Carica le informazioni utente
+        loadUserInfo();
+      });
+      
+      // Rimuovi overlay bloccanti che potrebbero essere rimasti da altre pagine
+      function removeAnyBlockingOverlays() {
+        // Rimuovi overlay di loading rimasti
+        const loadingOverlays = document.querySelectorAll('[id*="loading"], [id*="overlay"], .fixed.inset-0:not(header)');
+        loadingOverlays.forEach(overlay => {
+          if (overlay.classList.contains('fixed') && 
+              (overlay.style.backgroundColor || getComputedStyle(overlay).backgroundColor !== 'rgba(0, 0, 0, 0)')) {
+            overlay.remove();
+          }
+        });
+        
+        // Forza la rimozione di qualsiasi overlay grigio
+        setTimeout(() => {
+          const grayOverlays = document.querySelectorAll('.fixed');
+          grayOverlays.forEach(overlay => {
+            const style = getComputedStyle(overlay);
+            if (style.backgroundColor.includes('0.7') || style.backgroundColor.includes('0.8') || style.opacity === '0.7') {
+              overlay.remove();
+            }
+          });        }, 100);
+      }
+      
+      // Forza la visibilità del contenuto principale
+      function forceShowContent() {
+        const main = document.querySelector('main');
+        const body = document.querySelector('body');
+        
+        if (main) {
+          main.style.visibility = 'visible';
+          main.style.opacity = '1';
+          main.style.pointerEvents = 'auto';
+        }
+        
+        if (body) {
+          body.style.pointerEvents = 'auto';
+          body.style.overflow = 'auto';
+        }
+        
+        // Assicurati che non ci siano z-index problematici
+        const header = document.querySelector('header');
+        if (header) {
+          header.style.zIndex = '50';
+        }
+      }
+        // Carica le informazioni utente
+function loadUserInfo() {
+  fetch('/api/user')
+    .then(response => {
+      if (!response.ok) {
+        // Reindirizza alla login se l'utente non è autenticato
+        window.location.href = '/login';
+        throw new Error('User not logged in');
+      }
+      return response.json();
+    })
+    .then(user => {
+      userData = user;
+        // Verifica se l'utente ha un abbonamento premium o è admin
+      if (userData.subscription === 'premium' || userData.role === 'admin') {
+        // Mostra messaggio per abbonamento premium
+        rentalsGrid.innerHTML = `
+          <div class="col-span-full text-center py-8">
+            <div class="bg-gradient-to-t from-black to-gray-800 rounded-lg p-6 inline-block">
+              <svg class="mx-auto h-12 w-12 text-green-500 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <h3 class="text-xl font-bold text-green-400">Hai un abbonamento premium!</h3>
+              <p class="text-gray-300 mt-2">Puoi guardare tutti i contenuti senza bisogno di noleggiare.</p>
+              <a href="/browse" class="inline-block mt-4 bg-red-600 text-white px-6 py-2 rounded-md hover:bg-red-700 transition-colors">
+                Sfoglia Contenuti
+              </a>
+            </div>
+          </div>
+        `;
+        subscriptionSuggestion.classList.add('hidden');
+      } else {
+        // Carica i noleggi per utenti senza abbonamento premium
+        loadRentals();
+        subscriptionSuggestion.classList.remove('hidden');
+      }    })
+    .catch(error => {
+      console.error('Error loading user info:', error);
+      // In caso di errore, mostra comunque la pagina vuota invece di bloccare
+      rentalsGrid.innerHTML = `
+        <div class="col-span-full text-center py-8">
+          <div class="bg-zinc-800 rounded-lg p-6 inline-block">
+            <svg class="mx-auto h-12 w-12 text-red-500 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+            </svg>
+            <h3 class="text-xl font-bold text-red-400">Errore di caricamento</h3>
+            <p class="text-gray-300 mt-2">Si è verificato un errore nel caricamento dei dati.</p>
+            <button onclick="location.reload()" class="inline-block mt-4 bg-red-600 text-white px-6 py-2 rounded-md hover:bg-red-700 transition-colors">
+              Riprova
+            </button>
+          </div>
+        </div>
+      `;
+    });
+}
+      
+      // Carica i noleggi
+      function loadRentals() {
+        fetch('/api/rentals')
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Failed to fetch rentals');
+            }
+            return response.json();
+          })
+          .then(data => {
+            rentals = data;
+            displayRentals();
+          })          .catch(error => {
+            console.error('Error loading rentals:', error);
+            rentalsGrid.innerHTML = '<p class="text-red-500 col-span-full text-center">Si è verificato un errore durante il caricamento dei noleggi. Riprova più tardi.</p>';
+          });
+      }
+        // Visualizza i noleggi
+      function displayRentals() {
+        if (rentals.length === 0) {
+          noRentalsMessage.classList.remove('hidden');
+          return;
+        }
+        
+        rentalsGrid.innerHTML = '';
+        
+        rentals.forEach(rental => {
+          // Calcola il tempo rimanente
+          const expiryDate = new Date(rental.expiry_date);
+          const now = new Date();
+          const hoursLeft = Math.max(0, Math.round((expiryDate - now) / (1000 * 60 * 60)));
+          
+          // Crea la card per il noleggio
+          const rentalCard = document.createElement('div');
+          rentalCard.className = 'movie-card bg-zinc-800 rounded-lg overflow-hidden shadow-lg flex flex-col';
+          
+          rentalCard.innerHTML = `
+            <div class="relative aspect-[2/3] bg-gray-900">
+              <img src="${rental.image_path || '/placeholder.jpg'}" alt="${rental.title}" class="w-full h-full object-cover">
+              <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-2">
+                <h3 class="text-white text-sm font-semibold truncate">${rental.title}</h3>
+                <div class="flex justify-between text-xs">
+                  <span class="text-gray-400">${rental.type === 'series' ? 'Serie TV' : 'Film'}</span>
+                  <span class="text-gray-400">${rental.genre}</span>
+                </div>
+              </div>
+            </div>
+            <div class="p-3 flex-grow flex flex-col">
+              <div class="text-yellow-500 text-sm flex items-center gap-1 mb-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span>${hoursLeft} ore rimanenti</span>
+              </div>
+              <div class="text-xs text-gray-400 mb-3">
+                Noleggiato il ${new Date(rental.rental_date).toLocaleDateString()}
+              </div>
+              <a href="/watch/${rental.movie_id}" class="mt-auto bg-red-600 text-center text-white py-2 rounded-md hover:bg-red-700 transition-colors text-sm">
+                Guarda ora
+              </a>
+            </div>
+          `;
+          
+          rentalsGrid.appendChild(rentalCard);
+        });
+      }
+      
+      // Logout
+      function logout() {
+  fetch('/logout', {
+    method: 'POST'
+  })
+  .then(response => {
+    if (response.ok) {
+      // Pulisci eventuali dati locali
+      sessionStorage.clear();
+      localStorage.removeItem('userState');
+      
+      window.location.replace('/login?logout=true');
+    } else {
+      console.error('Errore durante il logout');
+    }
+  })
+  .catch(error => {
+    console.error('Errore durante il logout:', error);
+  });
+}
+
+
+// Verifica immediata dell'autenticazione
+document.addEventListener('DOMContentLoaded', function() {
+  // Debug: verifica se ci sono overlay bloccanti
+  setTimeout(() => {
+    const allElements = document.querySelectorAll('*');
+    const blockingElements = [];
+    
+    allElements.forEach(element => {
+      const style = getComputedStyle(element);
+      if (style.position === 'fixed' && 
+          (style.backgroundColor.includes('0.7') || 
+           style.backgroundColor.includes('0.8') ||
+           element.classList.contains('loading-overlay') ||
+           element.id.includes('loading'))) {
+        blockingElements.push(element);
+      }
+    });
+    
+    if (blockingElements.length > 0) {
+      blockingElements.forEach(el => {
+        el.remove();
+      });
+    }
+  }, 500);
+  
+  // Verifica sessione all'avvio della pagina
+  checkAuthStatus();
+});
+
+// Controlla se l'utente è autenticato
+function checkAuthStatus() {
+  fetch('/api/user')
+    .then(response => {
+      if (!response.ok) {
+        // Se la risposta non è ok, l'utente non è autenticato
+        redirectToLogin();
+        throw new Error('Non autenticato');
+      }
+      return response.json();
+    })
+    .then(user => {
+      // Authentication verificata
+    })
+    .catch(error => {
+      console.error('Errore verifica autenticazione:', error);
+      redirectToLogin();
+    });
+}
+
+// Reindirizza alla pagina di login
+function redirectToLogin() {
+  window.location.replace('/login');
+}
+    </script>
+    
+    <!-- Script per la gestione dell'autenticazione e logout -->
+    <script src="/js/auth-utils.js"></script>
+  </body>
+</html>

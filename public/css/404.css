@@ -1,0 +1,19 @@
+/* 404 Error page styles */
+
+/* Sfondo del body per la pagina 404 */
+.error-body {
+  background-image: url('/sfondo.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+.error-container {
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.premium-glow {
+  box-shadow: 0 0 30px rgba(239, 68, 68, 0.3);
+}

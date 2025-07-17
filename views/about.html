@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/about.css">
+    <title>CineBinge - Chi Siamo</title>
+  </head>
+  <body class="bg-black text-white min-h-screen flex flex-col about-body">
+    <!-- Overlay scuro per migliorare la leggibilità -->
+    <div class="fixed inset-0 bg-black bg-opacity-60 -z-10"></div>    <header class="bg-gradient-to-b from-black to-transparent fixed w-full z-50 top-0 left-0 py-6">
+      <div class="container mx-auto px-4 flex justify-between items-center">
+        <a href="/">
+          <img class="w-32" src="/logo.png" alt="CineBinge" />
+        </a>
+        <button onclick="history.back()" class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors">
+          Indietro
+        </button>
+      </div>
+    </header><!-- Main Content -->
+    <main class="flex-grow flex items-start justify-center py-24 pt-32 relative">
+      <div class="bg-gradient-to-b from-black to-gray-800 text-white p-8 rounded-lg shadow-lg max-w-3xl mx-4">
+        <!-- Chi Siamo -->
+        <section class="mb-12">
+          <h1 class="text-4xl font-bold text-center mb-6">Chi Siamo</h1>
+          <p class="text-gray-300 text-lg leading-relaxed text-center">
+            Benvenuti su <strong>CineBinge</strong>, la piattaforma di streaming dedicata agli amanti di film e serie TV. 
+            La nostra missione è offrire un'esperienza di intrattenimento senza pari, con un catalogo in continua espansione 
+            che include i migliori titoli di ogni genere. Che tu sia un appassionato di azione, commedia, documentari o cartoni animati, 
+            su CineBinge troverai sempre qualcosa di speciale da guardare.
+          </p>
+        </section>
+
+        <!-- Privacy -->
+        <section class="mb-12">
+          <h2 class="text-3xl font-bold mb-4 text-center">Privacy</h2>
+          <p class="text-gray-300 text-lg leading-relaxed text-center">
+            La tua privacy è importante per noi. Su CineBinge, ci impegniamo a proteggere i tuoi dati personali e a garantire 
+            che vengano utilizzati solo per migliorare la tua esperienza sulla nostra piattaforma. Non condividiamo le tue informazioni 
+            con terze parti senza il tuo consenso. 
+          </p>
+        </section>
+
+        <!-- Termini e Condizioni -->
+        <section>
+          <h2 class="text-3xl font-bold mb-4 text-center">Termini e Condizioni</h2>
+          <p class="text-gray-300 text-lg leading-relaxed text-center">
+            Utilizzando CineBinge, accetti i nostri termini e condizioni. La piattaforma è destinata esclusivamente a uso personale 
+            e non commerciale. È vietato condividere il tuo account con altri utenti. Per maggiori informazioni, consulta i nostri 
+          </p>
+        </section>
+      </div>
+    </main>    <footer class="bg-gradient-to-t from-black to-gray-800 py-3 mt-auto">
+      <div class="container mx-auto text-center">
+        <p class="text-gray-400 text-xs">© 2025 CineBinge. Tutti i diritti riservati.</p>
+        <div class="flex justify-center space-x-3 mt-2">
+          <a href="/about" class="text-xs text-white hover:text-red-500 transition-colors">Chi Siamo</a>
+          <a href="/about" class="text-xs text-white hover:text-red-500 transition-colors">Privacy</a>
+          <a href="/about" class="text-xs text-white hover:text-red-500 transition-colors">Termini e Condizioni</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

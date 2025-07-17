@@ -1,0 +1,85 @@
+/* Subscription pages styles */
+
+/* Sfondo del body per le pagine subscription */
+.subscription-body {
+  background-image: url('/sfondo.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+/* Movie reel decoration */
+.movie-reel {
+  background-image: radial-gradient(circle at center, #333 30%, transparent 30%),
+                    radial-gradient(circle at center, #333 5%, transparent 5%);
+  background-size: 60px 60px, 20px 20px;
+  background-position: 0 0, 30px 30px;
+  opacity: 0.3;
+}
+
+/* Container styles */
+.subscription-container {
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.checkout-container {
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(10px);
+}
+
+.success-container {
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(10px);
+}
+
+/* Premium glow effect */
+.premium-glow {
+  box-shadow: 0 0 30px rgba(239, 68, 68, 0.3);
+}
+
+/* Force visibility and remove blocking overlays - per payment.html */
+body {
+  overflow: auto !important;
+  pointer-events: auto !important;
+}
+
+main {
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+/* Hide any loading overlays that might remain */
+[id*="loading"],
+[class*="loading-overlay"],
+.fixed.inset-0.bg-black:not(header):not(footer) {
+  display: none !important;
+}
+
+/* Remove blocking gray overlays */
+.fixed[style*="background-color: rgba(0, 0, 0, 0.7)"],
+.fixed[style*="background: rgba(0, 0, 0, 0.7)"] {
+  display: none !important;
+}
+
+/* Footer standard per subscription pages - stesso stile delle altre pagine */
+footer {
+  margin-top: auto;
+  position: relative;
+  z-index: 10;
+}
+
+/* Assicura visibilità con overlay se necessario */
+.subscription-footer-overlay {
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(5px);
+  border-radius: 0;
+}
+
+/* Subscription main layout */
+.subscription-main {
+  padding-top: 7rem;
+  min-height: calc(100vh - 100px);
+}

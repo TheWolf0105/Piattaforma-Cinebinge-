@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="it">  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/browse.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <title>CineBinge - Sfoglia Contenuti</title>
+  </head>  
+  <body class="bg-black text-white min-h-screen browse-body">
+    <!-- Overlay gradient per migliorare la leggibilità -->
+    <div class="fixed inset-0 bg-gradient-to-br from-black/70 via-transparent to-black/50 pointer-events-none"></div>
+      <header class="bg-gradient-to-b from-black to-transparent fixed w-full z-50">
+      <div class="container mx-auto px-4 py-6 flex justify-between items-center">
+        <img class="w-32" src="/logo.png" alt="CineBinge" />
+        <div class="flex gap-4">
+          <a id="dashboardButton" href="/dashboard" class="hidden bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors">
+            Dashboard
+          </a>
+          <a id="myRentalsButton" href="/my-rentals" class="hidden bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors">
+            I miei noleggi
+          </a>
+          <div id="userSection" class="flex gap-4">
+            <a href="/login" class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors">
+              Accedi
+            </a>
+            <a href="/register" class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors">
+              Registrati
+            </a>
+          </div>
+        </div>
+      </div>    </header>    <!-- Main Content -->
+    <main class="relative z-10 container mx-auto px-6 py-12 pt-28">      <div class="max-w-7xl mx-auto">
+        <!-- Hero Section -->
+        <div class="text-center mb-8 floating-animation">
+          <h1 class="text-4xl md:text-5xl font-bold mb-4 tracking-tight text-white drop-shadow-lg">
+            Esplora i nostri
+            <span class="text-red-500">contenuti</span>
+          </h1>
+          <p class="text-lg text-gray-200 font-medium max-w-2xl mx-auto leading-relaxed drop-shadow-md">
+            Scopri migliaia di film e serie TV in alta qualità. La tua prossima avventura cinematografica ti aspetta.
+          </p>
+        </div>
+
+        <!-- Premium Search Container -->
+        <div class="search-container rounded-3xl p-8 mb-12 shadow-2xl">
+          <!-- Search Bar -->
+          <div class="relative mb-8">
+            <div class="absolute inset-y-0 left-0 pl-6 flex items-center pointer-events-none">
+              <svg class="h-6 w-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+              </svg>
+            </div>
+            <input 
+              type="text" 
+              id="searchInput" 
+              placeholder="Cerca per titolo, attore, regista..." 
+              class="premium-input w-full pl-16 pr-6 py-4 rounded-2xl text-white placeholder-gray-400 text-lg font-medium outline-none"
+            >
+            <ul 
+              id="suggestionsList" 
+              class="absolute premium-glass-light w-full rounded-2xl mt-2 hidden z-50 overflow-hidden shadow-2xl"
+            >
+            </ul>
+          </div>
+          
+          <!-- Advanced Filters -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="space-y-2">
+              <label class="block text-gray-300 text-sm font-semibold uppercase tracking-wider">Genere</label>
+              <select 
+                id="genreFilter" 
+                class="premium-input w-full px-4 py-3 rounded-xl text-white text-base font-medium outline-none"
+              >
+                <option value="">Tutti i generi</option>
+              </select>
+            </div>
+            
+            <div class="space-y-2">
+              <label class="block text-gray-300 text-sm font-semibold uppercase tracking-wider">Tipo</label>
+              <select 
+                id="typeFilter" 
+                class="premium-input w-full px-4 py-3 rounded-xl text-white text-base font-medium outline-none"
+              >
+                <option value="">Tutti i tipi</option>
+                <option value="movie">Film</option>
+                <option value="series">Serie TV</option>
+              </select>
+            </div>
+            
+            <div class="space-y-2">
+              <label class="block text-gray-300 text-sm font-semibold uppercase tracking-wider">Anno</label>
+              <select 
+                id="yearFilter" 
+                class="premium-input w-full px-4 py-3 rounded-xl text-white text-base font-medium outline-none"
+              >
+                <option value="">Tutti gli anni</option>
+              </select>
+            </div>
+          </div>
+          
+          <!-- Search Button -->
+          <div class="mt-8 flex justify-center">
+            <button 
+              id="searchButton" 
+              class="premium-button px-12 py-4 text-white font-bold text-lg rounded-2xl outline-none"
+            >
+              <span class="flex items-center gap-3">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                </svg>
+                Cerca Contenuti
+              </span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Results Section -->
+        <div class="results-header rounded-t-3xl p-6 mb-8">
+          <div class="flex items-center justify-between">
+            <h2 class="text-3xl font-bold text-white flex items-center gap-4">
+              <svg class="w-8 h-8 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4V2a1 1 0 011-1h8a1 1 0 011 1v2h4a1 1 0 011 1v1a1 1 0 01-1 1v9a3 3 0 01-3 3H6a3 3 0 01-3-3V7a1 1 0 01-1-1V5a1 1 0 011-1h4z"/>
+              </svg>
+              Risultati
+              <span id="resultsCount" class="text-gray-400 text-2xl font-light">(0)</span>
+            </h2>
+          </div>
+        </div>
+        
+        <!-- Movies Grid -->
+        <div id="resultsGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
+          <!-- Movies will be rendered here -->
+        </div>
+        
+        <!-- No Results -->
+        <div id="noResultsMessage" class="hidden text-center py-20">
+          <div class="premium-glass rounded-3xl p-12 mx-auto max-w-md">
+            <svg class="mx-auto h-20 w-20 text-gray-500 mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <h3 class="text-2xl font-bold text-white mb-4">Nessun risultato trovato</h3>
+            <p class="text-gray-400 leading-relaxed">Prova a modificare i filtri di ricerca o cerca con termini diversi.</p>
+          </div>
+        </div>
+      </div>
+    </main>    <footer class="bg-gradient-to-t from-black to-gray-800 py-3 w-full">
+      <div class="container mx-auto text-center">
+        <p class="text-gray-400 text-xs">© 2025 CineBinge. Tutti i diritti riservati.</p>
+        <div class="flex justify-center space-x-3 mt-2">
+          <a href="/about" class="text-xs text-white hover:text-red-500 transition-colors">Chi Siamo</a>
+          <a href="/about" class="text-xs text-white hover:text-red-500 transition-colors">Privacy</a>
+          <a href="/about" class="text-xs text-white hover:text-red-500 transition-colors">Termini e Condizioni</a>
+        </div>
+      </div>
+    </footer>
+
+    <script>      // Elementi DOM
+      const searchInput = document.getElementById('searchInput');
+      const suggestionsList = document.getElementById('suggestionsList');
+      const genreFilter = document.getElementById('genreFilter');
+      const typeFilter = document.getElementById('typeFilter');
+      const yearFilter = document.getElementById('yearFilter');
+      const searchButton = document.getElementById('searchButton');
+      const resultsGrid = document.getElementById('resultsGrid');
+      const resultsCount = document.getElementById('resultsCount');
+      const noResultsMessage = document.getElementById('noResultsMessage');
+      const userSection = document.getElementById('userSection');
+        // Variabili
+      let movies = [];
+      let isUserLoggedIn = false;
+      let filtersLoaded = false;
+      let isSearching = false;      // Inizializzazione
+      document.addEventListener('DOMContentLoaded', () => {
+        // Ottieni i parametri dall'URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const searchParam = urlParams.get('search') || urlParams.get('q');
+        const genreParam = urlParams.get('genre');
+        const typeParam = urlParams.get('type');
+        const yearParam = urlParams.get('year');
+        
+        // Imposta i valori iniziali se presenti nei parametri
+        if (searchParam) searchInput.value = searchParam;
+        if (typeParam) typeFilter.value = typeParam;
+        
+        checkUserStatus();
+        loadFilters(genreParam, yearParam);
+        
+        // Event listeners
+        searchButton.addEventListener('click', performSearch);
+        searchInput.addEventListener('keypress', function(e) {
+          if (e.key === 'Enter') {
+            performSearch();
+          }
+        });
+
+        // Event listener per i suggerimenti
+        searchInput.addEventListener('input', () => {
+          const query = searchInput.value.trim();
+          fetchSuggestions(query);
+        });
+        
+       
+      });
+      
+      // Funzione per visualizzare i suggerimenti
+      function displaySuggestions(suggestions) {
+        suggestionsList.innerHTML = '';
+        
+        if (suggestions.length === 0) {
+          suggestionsList.classList.add('hidden');
+          return;
+        }
+          suggestions.forEach(movie => {
+          const suggestionItem = document.createElement('li');
+          suggestionItem.className = 'px-6 py-4 hover:bg-white/5 cursor-pointer transition-colors duration-200 border-b border-white/5 last:border-b-0 group';
+          
+          suggestionItem.innerHTML = `
+            <div class="flex items-center gap-4">
+              <div class="flex-shrink-0">
+                <svg class="w-5 h-5 text-gray-400 group-hover:text-red-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4V2a1 1 0 011-1h8a1 1 0 011 1v2h4a1 1 0 011 1v1a1 1 0 01-1 1v9a3 3 0 01-3 3H6a3 3 0 01-3-3V7a1 1 0 01-1-1V5a1 1 0 011-1h4z"/>
+                </svg>
+              </div>
+              <div class="flex-1">
+                <div class="text-white font-medium group-hover:text-red-400 transition-colors">${movie.title}</div>
+                <div class="text-sm text-gray-400">${movie.type === 'series' ? 'Serie TV' : 'Film'} • ${movie.release_year || 'N/A'}</div>
+              </div>
+            </div>
+          `;
+          
+          suggestionItem.addEventListener('click', () => {
+            searchInput.value = movie.title;
+            suggestionsList.classList.add('hidden');
+            performSearch(); // Esegui la ricerca con il titolo selezionato
+          });
+          
+          suggestionsList.appendChild(suggestionItem);
+        });
+        
+        suggestionsList.classList.remove('hidden');
+      }
+      
+      // Funzione per ottenere i suggerimenti
+      function fetchSuggestions(query) {
+        if (!query) {
+          suggestionsList.innerHTML = '';
+          suggestionsList.classList.add('hidden');
+          return;
+        }
+        
+        fetch(`/api/movies?search=${encodeURIComponent(query)}`)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(`Errore API: ${response.status}`);
+            }
+            return response.json();
+          })
+          .then(data => {
+            if (!Array.isArray(data)) {
+              throw new Error('Formato dati non valido');
+            }
+            displaySuggestions(data);
+          })
+          .catch(error => {
+            console.error('Errore nel caricamento dei suggerimenti:', error);
+            suggestionsList.innerHTML = '<li class="px-4 py-2 text-red-500">Errore nel caricamento</li>';
+            suggestionsList.classList.remove('hidden');
+          });
+      }      // Controlla lo stato dell'utente
+      function checkUserStatus() {
+        const myRentalsButton = document.getElementById('myRentalsButton');
+        const dashboardButton = document.getElementById('dashboardButton');
+        
+        fetch('/api/user')
+          .then(response => {
+            if (response.ok) {
+              isUserLoggedIn = true;
+              return response.json();
+            } else {
+              isUserLoggedIn = false;
+              throw new Error('User not logged in');
+            }
+          })
+          .then(user => {            // Aggiorna l'interfaccia per l'utente loggato
+            userSection.innerHTML = `
+              <div class="flex items-center gap-3">
+                <div class="px-4 py-2 bg-gradient-to-r from-gray-800/80 to-gray-700/80 backdrop-blur-sm rounded-xl border border-white/10">
+                  <span class="text-sm text-white font-medium">${user.email}</span>
+                </div>
+              </div>
+            `;
+            
+            // Mostra il pulsante Dashboard per tutti gli utenti loggati
+            if (dashboardButton) {
+              dashboardButton.classList.remove('hidden');
+            }
+            
+            // Mostra il pulsante "I miei noleggi" solo per utenti basic o senza abbonamento
+            // Gli utenti premium non hanno bisogno di noleggiare
+            const subscription = user.subscription || 'basic';
+            const isPremium = subscription === 'premium' || subscription === 'Premium';
+            
+            if (!isPremium && myRentalsButton) {
+              myRentalsButton.classList.remove('hidden');
+            } else if (myRentalsButton) {
+              myRentalsButton.classList.add('hidden');
+            }
+          })
+          .catch(error => {
+            // Nasconde i pulsanti per utenti non loggati
+            if (myRentalsButton) {
+              myRentalsButton.classList.add('hidden');
+            }
+            if (dashboardButton) {
+              dashboardButton.classList.add('hidden');
+            }
+          });
+      }// Carica i filtri
+      function loadFilters(genreParamFromUrl, yearParamFromUrl) {
+        let genresLoaded = false;
+        let yearsLoaded = false;
+        
+        // Timeout di sicurezza per i filtri
+        const filtersTimeout = setTimeout(() => {
+          if (!genresLoaded) {
+            genresLoaded = true;
+          }
+          if (!yearsLoaded) {
+            yearsLoaded = true;
+          }
+          checkFiltersComplete();
+        }, 5000); // 5 secondi di timeout
+        
+          function checkFiltersComplete() {
+          if (genresLoaded && yearsLoaded && !filtersLoaded) {
+            clearTimeout(filtersTimeout); // Cancella il timeout se i filtri sono caricati
+            filtersLoaded = true;
+            performSearch();
+          }
+        }
+          // Carica i generi
+        fetch('/api/genres')
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(`Errore API generi: ${response.status}`);
+            }
+            return response.json();
+          })
+          .then(genres => {
+            genres.forEach(genre => {
+              const option = document.createElement('option');
+              option.value = genre;
+              option.textContent = genre.charAt(0).toUpperCase() + genre.slice(1); // Capitalizza la prima lettera
+              genreFilter.appendChild(option);
+            });
+            
+            // Imposta il genere se presente nei parametri URL
+            if (genreParamFromUrl) {
+              genreFilter.value = genreParamFromUrl;
+            }
+            
+            genresLoaded = true;
+            checkFiltersComplete();
+          })
+          .catch(error => {
+            genresLoaded = true;
+            checkFiltersComplete();
+          });
+          // Carica gli anni
+        fetch('/api/years')
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(`Errore API anni: ${response.status}`);
+            }
+            return response.json();
+          })
+          .then(years => {
+            years.forEach(year => {
+              const option = document.createElement('option');
+              option.value = year;
+              option.textContent = year;
+              yearFilter.appendChild(option);
+            });
+            
+            // Imposta l'anno se presente nei parametri URL
+            if (yearParamFromUrl) {
+              yearFilter.value = yearParamFromUrl;
+            }
+            
+            yearsLoaded = true;
+            checkFiltersComplete();
+          })
+          .catch(error => {
+            yearsLoaded = true;
+            checkFiltersComplete();
+          });
+      }      // Esegue la ricerca
+      function performSearch() {
+        // Se i filtri non sono ancora caricati, ritorna
+        if (!filtersLoaded) {
+          return;
+        }
+        
+        // Previeni chiamate multiple simultanee
+        if (isSearching) {
+          return;
+        }
+        
+        isSearching = true;
+        
+        // Pulisci i risultati precedenti
+        resultsGrid.innerHTML = '';
+        noResultsMessage.classList.add('hidden');
+
+        // Ottieni i valori dei filtri
+        const search = searchInput.value.trim();
+        const genre = genreFilter.value;
+        const type = typeFilter.value;
+        const year = yearFilter.value;
+
+        // Costruisci l'URL di ricerca
+        let url = '/api/movies?';
+        if (search) url += `search=${encodeURIComponent(search)}&`;
+        if (genre) url += `genre=${encodeURIComponent(genre)}&`;
+        if (type) url += `type=${encodeURIComponent(type)}&`;
+        if (year) url += `year=${encodeURIComponent(year)}&`;
+
+        // Esegui la richiesta
+        fetch(url)          .then(response => {
+            if (!response.ok) {
+              throw new Error(`Errore API: ${response.status}`);
+            }
+            return response.json();
+          })
+          .then(data => {
+            movies = data;
+            displayResults();
+          })
+          .catch(error => {
+            resultsGrid.innerHTML = '<p class="text-red-500 col-span-full text-center">Si è verificato un errore durante la ricerca. Riprova più tardi.</p>';
+            noResultsMessage.classList.add('hidden');
+          })
+          .finally(() => {
+            isSearching = false;
+          });
+      }      // Visualizza i risultati
+      function displayResults() {
+        resultsGrid.innerHTML = '';
+
+        if (!Array.isArray(movies) || movies.length === 0) {
+          noResultsMessage.classList.remove('hidden');
+          resultsCount.textContent = '(0)';
+          return;
+        }
+
+        noResultsMessage.classList.add('hidden');
+        resultsCount.textContent = `(${movies.length})`;        movies.forEach(movie => {
+          const card = document.createElement('div');
+          card.className = 'movie-card-premium rounded-2xl overflow-hidden shadow-xl';
+
+          // Uso di un URL di fallback per le immagini
+          const imageUrl = movie.image_path && movie.image_path.startsWith('/') 
+            ? movie.image_path 
+            : '/placeholder.jpg';
+
+          card.innerHTML = `
+            <a href="/movie/${movie.id}" class="block group">
+              <div class="relative aspect-[2/3] overflow-hidden rounded-2xl">
+                <img src="${imageUrl}" alt="${movie.title}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" onerror="this.src='/placeholder.jpg'">
+                
+                <!-- Overlay gradient -->
+                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-300"></div>
+                
+                <!-- Content overlay -->
+                <div class="absolute inset-0 p-4 flex flex-col justify-end">
+                  <div class="transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                    <h3 class="text-white text-sm font-bold mb-2 line-clamp-2 leading-tight">${movie.title}</h3>
+                    
+                    <div class="flex items-center justify-between text-xs">
+                      <div class="flex flex-col gap-1">
+                        <span class="text-gray-300 font-medium">${movie.release_year || 'N/A'}</span>
+                        <span class="px-2 py-1 rounded-full text-xs font-semibold ${movie.type === 'series' ? 'bg-blue-500/20 text-blue-300' : 'bg-red-500/20 text-red-300'}">
+                          ${movie.type === 'series' ? 'Serie TV' : 'Film'}
+                        </span>
+                      </div>
+                      
+                      <!-- Play icon -->
+                      <div class="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <div class="w-10 h-10 bg-red-500 rounded-full flex items-center justify-center shadow-lg">
+                          <svg class="w-4 h-4 text-white ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M8 5v14l11-7z"/>
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Quality badge -->
+                <div class="absolute top-3 left-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <span class="px-2 py-1 bg-green-500 text-white text-xs font-bold rounded-md">HD</span>
+                </div>
+              </div>
+            </a>
+          `;
+
+          resultsGrid.appendChild(card);
+        });
+      }
+      
+      // Chiudi i suggerimenti quando si fa clic altrove nella pagina
+      document.addEventListener('click', function(event) {
+        if (!searchInput.contains(event.target) && !suggestionsList.contains(event.target)) {
+          suggestionsList.classList.add('hidden');
+        }
+      });
+    </script>
+    
+    <!-- Script per la gestione dell'autenticazione e logout -->
+    <script src="/js/auth-utils.js"></script>
+  </body>
+</html>

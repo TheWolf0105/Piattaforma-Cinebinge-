@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <title>Movie Detail - CineBinge</title>    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/movie-detail.css">
+    <!--  MARKER -->
+    <meta name="version" content="improved-v2" id="pageVersionMarker">
+    
+</head>
+<body class="bg-black text-white min-h-screen movie-detail-body">
+    <!-- Overlay gradiente per migliore leggibilità -->
+    <div class="fixed inset-0 bg-black bg-opacity-60 -z-10"></div><!-- Navigation -->
+    <header class="bg-gradient-to-b from-black to-transparent fixed w-full z-50 top-0 left-0">
+        <div class="container mx-auto px-4 py-6 flex justify-between items-center">
+            <a href="/">
+                <img class="w-32" src="/logo.png" alt="CineBinge" />
+            </a>            <nav class="flex gap-4 items-center">
+                <div id="userSection" class="flex gap-4 items-center">
+                    <!-- User info caricati qui -->
+                </div>
+                <div id="navigationButtons" class="flex gap-4 items-center">
+                    <!-- I pulsanti di navigazione verranno caricati qui in base allo stato di accesso -->
+                </div>
+            </nav>
+        </div>
+    </header>
+
+<main class="pt-32 min-h-screen relative z-10">
+        <!-- Movie details -->
+        <div id="movieDetails" class="container mx-auto px-4 py-8">
+            <!-- Hero Section con layout cinematografico -->
+            <div class="flex flex-col lg:flex-row gap-12 items-start">
+                <!-- Movie poster section -->
+                <div class="lg:w-1/3 flex-shrink-0">
+                    <div class="relative group">
+                        <img id="moviePoster" src="" alt="" class="w-full max-w-sm mx-auto lg:mx-0 rounded-2xl shadow-2xl transform transition-transform duration-300 group-hover:scale-105">
+                        <!-- Gradient overlay sul poster -->
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </div>
+                </div>
+
+                <!-- Movie information section -->
+                <div class="lg:w-2/3 space-y-6">
+                    <!-- Titolo e metadati -->
+                    <div class="space-y-4">
+                        <h1 id="movieTitle" class="text-5xl lg:text-6xl font-bold text-white leading-tight tracking-tight"></h1>
+                        
+                        <!-- Badge per metadati -->
+                        <div class="flex flex-wrap items-center gap-3">
+                            <span id="movieYear" class="text-white/80 text-lg font-medium"></span>
+                            <span class="text-white/60">•</span>
+                            <span id="movieGenre" class="bg-white/10 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-medium border border-white/20"></span>
+                            <span class="text-white/60">•</span>
+                            <span id="movieDuration" class="text-white/80 text-lg font-medium"></span>
+                        </div>
+                    </div>
+
+                    <!-- Descrizione -->
+                    <div class="space-y-4">
+                        <p id="movieDescription" class="text-white/90 text-lg leading-relaxed max-w-4xl"></p>
+                        
+                        <!-- Info aggiuntive -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                            <div>
+                                <span class="text-white/60 block">Regia</span>
+                                <span id="movieDirector" class="text-white font-medium">-</span>
+                            </div>
+                            <div>
+                                <span class="text-white/60 block">Cast</span>
+                                <span id="movieCast" class="text-white font-medium">-</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- bottone azione con stile cinematografico -->
+                    <div id="actionButtons" class="flex flex-wrap gap-4 pt-6">
+                        <!-- Buttons popolati da JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Trailer section con design moderno -->
+            <div class="mt-16 space-y-8">
+                <div class="text-center">
+                    <h2 class="text-3xl font-bold text-white mb-2">Trailer</h2>
+                    <div class="w-24 h-1 bg-red-600 mx-auto rounded-full"></div>
+                </div>
+                
+                <!-- Video container con cornice cinematografica -->
+                <div class="max-w-6xl mx-auto">
+                    <div class="relative aspect-video rounded-2xl overflow-hidden shadow-2xl bg-black/50 backdrop-blur-sm border border-white/10">
+                        <iframe id="trailerFrame" class="w-full h-full" frameborder="0" allowfullscreen></iframe>
+                        <!-- Play button overlay se non c'è trailer -->
+                        <div id="noTrailerOverlay" class="hidden absolute inset-0 flex items-center justify-center bg-gradient-to-br from-gray-900/90 to-black/90">
+                            <div class="text-center space-y-4">
+                                <div class="w-16 h-16 mx-auto bg-white/10 rounded-full flex items-center justify-center">
+                                    <svg class="w-8 h-8 text-white/60" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M8 5v14l11-7z"/>
+                                    </svg>
+                                </div>
+                                <p class="text-white/60">Trailer non disponibile</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>        <!-- Error message -->
+        <div id="errorMessage" class="hidden container mx-auto px-4 text-center relative z-10">
+            <div class="max-w-md mx-auto bg-black/60 backdrop-blur-lg rounded-2xl p-8 border border-white/10">
+                <div class="w-16 h-16 mx-auto bg-red-600/20 rounded-full flex items-center justify-center mb-4">
+                    <svg class="w-8 h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                    </svg>
+                </div>
+                <h2 class="text-2xl font-bold mb-4 text-white">Film non trovato</h2>
+                <p class="text-white/70 mb-6">Il film richiesto non è disponibile.</p>
+                <a href="/browse" class="inline-block bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition-colors">
+                    Torna alla ricerca
+                </a>
+            </div>
+        </div>
+    </main>    <!-- Rental Modal con design moderno -->
+    <div id="rentModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 hidden">
+        <div class="bg-black/90 backdrop-blur-xl rounded-2xl p-8 max-w-md w-full mx-4 border border-white/10 shadow-2xl">
+            <h2 class="text-2xl font-bold mb-6 text-white text-center">Noleggia questo titolo</h2>
+            <div class="space-y-6">
+                <div class="text-center">
+                    <div class="w-16 h-16 mx-auto bg-red-600/20 rounded-full flex items-center justify-center mb-4">
+                        <svg class="w-8 h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <p id="rentModalText" class="text-white/80 leading-relaxed">
+                        Stai per noleggiare questo contenuto al prezzo di <span id="rentPrice" class="text-red-400 font-bold text-xl">€0.00</span>. 
+                        <br><br>Potrai guardarlo per <span class="text-white font-semibold">48 ore</span> dal momento del noleggio.
+                    </p>
+                </div>
+                <div class="flex gap-4">
+                    <button id="confirmRentButton" class="flex-1 bg-red-600 text-white px-6 py-3 rounded-xl hover:bg-red-700 transition-all duration-300 font-semibold transform hover:scale-105">
+                        Conferma Noleggio
+                    </button>
+                    <button id="cancelRentButton" class="flex-1 bg-white/10 backdrop-blur-sm text-white px-6 py-3 rounded-xl hover:bg-white/20 transition-all duration-300 border border-white/20">
+                        Annulla
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>    <footer class="bg-gradient-to-t from-black to-gray-800 py-3 mt-auto">
+        <div class="container mx-auto text-center">
+            <p class="text-gray-400 text-xs">© 2025 CineBinge. Tutti i diritti riservati.</p>
+            <div class="flex justify-center space-x-3 mt-2">
+                <a href="/about" class="text-xs text-white hover:text-red-500 transition-colors">Chi Siamo</a>
+                <a href="/about" class="text-xs text-white hover:text-red-500 transition-colors">Privacy</a>
+                <a href="/about" class="text-xs text-white hover:text-red-500 transition-colors">Termini e Condizioni</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        
+        
+        // Global variables
+        let movieId = null;
+        let movieData = null;
+        let userData = null;
+        let isLoggedIn = false;
+        let userStatusLoaded = false;
+        let movieDataLoaded = false;        // DOM Elements
+        const movieDetails = document.getElementById('movieDetails');
+        const errorMessage = document.getElementById('errorMessage');
+        const userSection = document.getElementById('userSection');
+        const rentModal = document.getElementById('rentModal');
+        const rentPrice = document.getElementById('rentPrice');
+        const confirmRentButton = document.getElementById('confirmRentButton');
+        const cancelRentButton = document.getElementById('cancelRentButton');        
+        function openRentModal() {
+            // controllo di sicurezza - film non noleggiabile
+            if (movieData && movieData.rentable === 0) {
+                alert('Questo contenuto non è disponibile per il noleggio. È disponibile solo con l\'abbonamento Premium.');
+                return false;
+            }
+
+            // blocca modal per utenti non autenticati
+            const rentModal = document.getElementById('rentModal');
+            if (rentModal) {
+                rentModal.classList.add('hidden');
+                rentModal.style.display = 'none';
+            }
+            
+            // controllo di sicurezza utente loggato o no
+            if (!isLoggedIn || !userData) {
+                // Show user-friendly message
+                alert('Per noleggiare questo contenuto devi prima effettuare il login.');
+                
+                // Redirect to login
+                setTimeout(() => {
+                    window.location.href = '/login';
+                }, 100);
+                return false;
+            }
+            
+            // controllo di sicurezza abbonamento premium
+            if (userData && (userData.subscription === 'premium' || userData.subscription === 'Premium')) {
+                alert('🌟 Hai già un abbonamento Premium attivo! Puoi guardare tutti i contenuti gratuitamente. Clicca su "Guarda ora" per iniziare.');
+                return false;
+            }
+            
+            // controllo triplo di sicurezza: verifica lo stato utente con il server prima di mostrare il modal
+            fetch('/api/user', {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('User not authenticated');
+                }
+                return response.json();
+            })
+            .then(serverUserData => {
+                // controlla se il server dice che l'utente è premium
+                if (serverUserData && (serverUserData.subscription === 'premium' || serverUserData.subscription === 'Premium')) {
+                    alert('🌟 Hai già un abbonamento Premium attivo! Puoi guardare tutti i contenuti gratuitamente.');
+                    return false;
+                }
+                
+                // non è premium, mostra il modal
+                showRentalModalSafely();
+            })
+            .catch(error => {
+                alert('Devi effettuare il login per noleggiare questo contenuto.');
+                window.location.href = '/login';
+            });
+            
+            return false; // sempre false per prevenire comportamenti indesiderati
+        }
+        // Funzione di visualizzazione sicura del modal
+        function showRentalModalSafely() {
+            const rentModal = document.getElementById('rentModal');
+            const rentPrice = document.getElementById('rentPrice');
+
+            // Imposta il prezzo
+            if (movieData && movieData.rent_price) {
+                rentPrice.textContent = `€${movieData.rent_price.toFixed(2)}`;
+            } else {
+                rentPrice.textContent = '€4.99';
+            }
+            
+            // mostra il modal con transizioni fluide
+            rentModal.classList.remove('hidden');
+            rentModal.classList.add('authorized-display');
+            rentModal.style.display = 'flex';
+            rentModal.style.visibility = 'visible';
+            rentModal.style.opacity = '1';
+            rentModal.style.zIndex = '50';
+        }       
+        function blockUnauthorizedModalDisplay() {
+            const rentModal = document.getElementById('rentModal');
+            if (!rentModal) return;
+            
+            // Forza nascita immediata del modal
+            rentModal.classList.add('hidden');
+            rentModal.style.display = 'none';
+            rentModal.style.visibility = 'hidden';
+            rentModal.style.opacity = '0';
+            rentModal.style.zIndex = '-9999';
+            
+            // aggressivo MutationObserver per bloccare ogni tentativo di visualizzazione non autorizzata
+            const observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    if (mutation.type === 'attributes' && (mutation.attributeName === 'class' || mutation.attributeName === 'style')) {
+                        // controlla se qualcuno sta cercando di mostrare il modal
+                        const hasHiddenClass = rentModal.classList.contains('hidden');
+                        const displayStyle = rentModal.style.display;
+                        const visibilityStyle = rentModal.style.visibility;
+                        const opacityStyle = rentModal.style.opacity;
+                        
+                        const isTryingToShow = !hasHiddenClass || 
+                                             (displayStyle && displayStyle !== 'none') ||
+                                             (visibilityStyle && visibilityStyle !== 'hidden') ||
+                                             (opacityStyle && opacityStyle !== '0');
+                        
+                        if (isTryingToShow) {
+                            // forza chiusura del modal
+                            rentModal.classList.add('hidden');
+                            rentModal.style.display = 'none';
+                            rentModal.style.visibility = 'hidden';
+                            rentModal.style.opacity = '0';
+                            rentModal.style.zIndex = '-9999';
+                            
+                            //se utente non loggato, mostra messaggio di errore e reindirizza
+                            if (!isLoggedIn || !userData) {
+                                setTimeout(() => {
+                                    alert('Per accedere ai contenuti devi prima effettuare il login.');
+                                    window.location.href = '/login';
+                                }, 100);
+                            }
+                        }
+                    }
+                });
+            });
+            
+            // osserva tutti i cambiamenti possibili
+            observer.observe(rentModal, {
+                attributes: true,
+                attributeFilter: ['class', 'style'],
+                attributeOldValue: true
+            });
+            
+            // continua a proteggere il modal con controlli frequenti
+            setInterval(() => {
+                const hasHiddenClass = rentModal.classList.contains('hidden');
+                const displayStyle = rentModal.style.display;
+                const isVisible = !hasHiddenClass || (displayStyle && displayStyle !== 'none');
+                
+                if (isVisible && (!isLoggedIn || !userData)) {
+                    rentModal.classList.add('hidden');
+                    rentModal.style.display = 'none';
+                    rentModal.style.visibility = 'hidden';
+                    rentModal.style.opacity = '0';
+                }
+            }, 500); // controllo ogni 500ms per una risposta ancora più rapida
+        }        function closeRentModal() {
+            const rentModal = document.getElementById('rentModal');
+            rentModal.classList.add('hidden');
+            rentModal.classList.remove('authorized-display');
+            rentModal.style.display = 'none';
+            rentModal.style.visibility = 'hidden';
+            rentModal.style.opacity = '0';
+            rentModal.style.zIndex = '-9999';
+        }
+
+        // controlla i pulsanti di azione in base allo stato dell'utente e dei dati del film
+        function checkAndUpdateButtons() {
+            if (userStatusLoaded && movieDataLoaded) {
+                updateActionButtons();
+            }
+        }        // controlla lo stato dell'utente
+        function checkUserStatus() {
+            fetch('/api/user', {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                credentials: 'same-origin'
+            })
+                .then(response => {
+                    if (response.ok) {
+                        isLoggedIn = true;
+                        return response.json();
+                    } else if (response.status === 401 || response.status === 403) {
+                        // utente non autenticato o accesso negato
+                        isLoggedIn = false;
+                        userData = null;
+                        throw new Error('User not authenticated');
+                    } else {
+                        // risposta inaspettata, resetta stato
+                        isLoggedIn = false;
+                        userData = null;
+                        throw new Error('Unexpected response status: ' + response.status);
+                    }
+                })
+                .then(user => {
+                    userData = user;
+                    isLoggedIn = true;
+                      //aggiorna la sezione utente con email e pulsanti di navigazione
+                    const subscriptionType = user.subscription || 'basic';
+                    const isPremium = (subscriptionType === 'premium' || subscriptionType === 'Premium');                    // aggiorna la sezione utente con email
+                    userSection.innerHTML = `
+                        <span class="text-sm text-white font-medium mr-4">${user.email}</span>
+                    `;
+
+                    // aggiorna i pulsanti di navigazione per gli utenti loggati
+                    const navigationButtons = document.getElementById('navigationButtons');
+                    navigationButtons.innerHTML = `
+                        <a href="/dashboard" class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors text-sm">
+                            Dashboard
+                        </a>
+                        <a href="/browse" class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors text-sm">
+                            Sfoglia
+                        </a>
+                    `;
+                    
+                    // nascondi il pulsante "My Rentals" se l'utente  è premium
+                    const myRentalsButton = document.getElementById('myRentalsButton');
+                    if (myRentalsButton) {
+                        myRentalsButton.style.display = 'none';
+                    }
+                    
+                    userStatusLoaded = true;
+                    checkAndUpdateButtons();
+                })
+                .catch(error => {
+                    isLoggedIn = false;
+                    userData = null;                    userSection.innerHTML = `
+                        <a href="/login" class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors text-sm">
+                            Accedi
+                        </a>
+                        <a href="/register" class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors text-sm ml-4">
+                            Registrati
+                        </a>
+                    `;
+
+                    // pulsanti di navigazione per utenti non loggati
+                    const navigationButtons = document.getElementById('navigationButtons');
+                    navigationButtons.innerHTML = '';
+                    
+                    // nascondi il pulsante "My Rentals" se l'utente non è loggato
+                    const myRentalsButton = document.getElementById('myRentalsButton');
+                    if (myRentalsButton) {
+                        myRentalsButton.style.display = 'none';
+                    }
+                    
+                    userStatusLoaded = true;
+                    checkAndUpdateButtons();
+                    
+                    // forza chiusura del modal di noleggio se aperto
+                    const rentModal = document.getElementById('rentModal');
+                    if (rentModal && !rentModal.classList.contains('hidden')) {
+                        rentModal.classList.add('hidden');
+                    }
+                });
+        }
+
+        // carica i dettagli del film
+        function loadMovieDetails() {
+            fetch(`/api/movies/${movieId}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Movie not found');
+                    }
+                    return response.json();
+                })
+                .then(movie => {
+                    movieData = movie;
+                    // aggiorna i dettagli del film
+                    document.getElementById('movieTitle').textContent = movie.title;
+                    document.getElementById('movieGenre').textContent = movie.genre;
+                    document.getElementById('movieYear').textContent = movie.year;
+                    document.getElementById('movieDuration').textContent = movie.duration;
+                    document.getElementById('movieDescription').textContent = movie.description;
+                    document.getElementById('moviePoster').src = movie.image_path;
+                    document.getElementById('moviePoster').alt = movie.title;
+                    document.title = `${movie.title} - CineBinge`;
+                    
+                    // Aggiungi dettagli aggiuntivi se disponibili
+                    if (movie.director) {
+                        document.getElementById('movieDirector').textContent = movie.director;
+                    }
+                    if (movie.cast) {
+                        document.getElementById('movieCast').textContent = movie.cast;
+                    }
+                      // Set trailer con gestione migliorata e fallback
+                    const trailerFrame = document.getElementById('trailerFrame');
+                    const noTrailerOverlay = document.getElementById('noTrailerOverlay');
+                    
+                    let trailerUrl = movie.trailer_url;
+                      // FALLBACK: Se non c'è trailer nel database, usa trailer di default per film popolari
+                    if (!trailerUrl && movie.title) {
+                        const title = movie.title.toLowerCase();
+                        const trailerMap = {
+                            'joker': 'https://www.youtube.com/embed/zAGVQLHvwOY',
+                            'avengers': 'https://www.youtube.com/embed/6ZfuNTqbHE8',
+                            'batman': 'https://www.youtube.com/embed/mqqft2x_Aa4',
+                            'spider-man': 'https://www.youtube.com/embed/JfVOs4VSpmA',
+                            'iron man': 'https://www.youtube.com/embed/8ugaeA-nMTc',
+                            'inception': 'https://www.youtube.com/embed/YoHD9XEInc0',
+                            'interstellar': 'https://www.youtube.com/embed/zSWdZVtXT7E'
+                        };
+                        
+                        for (const [keyword, url] of Object.entries(trailerMap)) {
+                            if (title.includes(keyword)) {
+                                trailerUrl = url;
+                                break;
+                            }
+                        }
+                    }
+                    
+                    if (trailerUrl) {
+                        trailerFrame.src = trailerUrl;
+                        trailerFrame.style.display = 'block';
+                        noTrailerOverlay.classList.add('hidden');
+                    } else {
+                        trailerFrame.style.display = 'none';
+                        noTrailerOverlay.classList.remove('hidden');
+                    }
+                    
+                    // mostra i dettagli del film immediatamente
+                    movieDetails.style.display = 'block';
+                    
+                    movieDataLoaded = true;
+                    checkAndUpdateButtons();
+                })                .catch(error => {
+                    errorMessage.style.display = 'block';
+                });
+        }
+
+        // aggiorna i pulsanti di azione in base allo stato dell'utente e dei dati del film
+        function updateActionButtons() {
+            const actionButtons = document.getElementById('actionButtons');
+            actionButtons.innerHTML = '';
+              if (!isLoggedIn) {
+                // Utente non autenticato - Pulsante per il login
+                actionButtons.innerHTML = `
+                    <button onclick="window.location.href='/login'" class="bg-red-600 hover:bg-red-700 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center gap-3 min-w-64">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013 3v1" />
+                        </svg>
+                        Accedi per guardare
+                    </button>
+                `;
+                return;
+            }
+
+            // controlla se l'utente è premium
+            if (userData && (userData.subscription === 'premium' || userData.subscription === 'Premium')) {
+                actionButtons.innerHTML = `
+                    <div class="space-y-4">
+                        <button onclick="window.location.href='/watch/${movieId}'" class="bg-red-600 hover:bg-red-700 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center gap-3 min-w-64">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                            </svg>
+                            Guarda ora
+                        </button>
+                        <div class="bg-green-600/20 border border-green-600/30 rounded-xl px-6 py-3 backdrop-blur-sm">
+                            <div class="flex items-center gap-3 text-green-400">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                <span class="font-semibold">Incluso nell'abbonamento Premium</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                return; // fermiamo qui se l'utente è premium
+            }
+
+            // per utenti non premium, controlla se hanno noleggiato il film
+            fetch(`/api/can-watch/${movieId}`)
+                .then(response => response.json())
+                .then(data => {
+                      if (data.canWatch) {
+                        // L'utente ha noleggiato il film 
+                        actionButtons.innerHTML = `
+                            <div class="space-y-4">
+                                <button onclick="window.location.href='/watch/${movieId}'" class="bg-red-600 hover:bg-red-700 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center gap-3 min-w-64">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                                    </svg>
+                                    Guarda ora
+                                </button>
+                                <div class="bg-yellow-600/20 border border-yellow-600/30 rounded-xl px-6 py-3 backdrop-blur-sm">
+                                    <div class="flex items-center gap-3 text-yellow-400">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                        <span class="font-semibold">Noleggio attivo (scade tra ${data.hoursLeft || '48'} ore)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    } else {
+                        // Controlla se il film è noleggiabile
+                        if (movieData && movieData.rentable === 0) {
+                            // Film non noleggiabile - mostra solo abbonamento Premium
+                            actionButtons.innerHTML = `
+                                <div class="space-y-4">
+                                    <button onclick="window.location.href='/subscription/select'" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center gap-3 min-w-64">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" />
+                                        </svg>
+                                        Abbonati Premium
+                                    </button>
+                                    <div class="bg-orange-600/20 border border-orange-600/30 rounded-xl px-6 py-3 backdrop-blur-sm">
+                                        <div class="flex items-center gap-3 text-orange-400">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 19c-.77.833.192 2.5 1.732 2.5z" />
+                                            </svg>
+                                            <span class="font-semibold">Noleggio non disponibile - Solo con abbonamento Premium</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                        } else {
+                            // L'utente deve noleggiare o abbonarsi 
+                            actionButtons.innerHTML = `
+                                <div class="flex flex-col sm:flex-row gap-4">
+                                    <button onclick="openRentModal()" class="bg-red-600 hover:bg-red-700 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center gap-3 min-w-64">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                        Noleggia €${movieData && movieData.rent_price ? movieData.rent_price.toFixed(2) : '4.99'}
+                                    </button>
+                                    <button onclick="window.location.href='/subscription/select'" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center gap-3 min-w-64">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" />
+                                        </svg>
+                                        Abbonati Premium
+                                    </button>
+                                </div>
+                            `;
+                        }
+                    }
+                })                .catch(error => {
+                    actionButtons.innerHTML = `
+                        <button onclick="window.location.href='/subscription/select'" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center gap-3 min-w-64">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" />
+                            </svg>
+                            Abbonati per guardare
+                        </button>
+                    `;
+                });
+        }
+
+        // Funzione per noleggiare il film
+        function rentMovie() {
+            // Controlla nuovamente lo stato premium prima di noleggiare
+            if (userData && (userData.subscription === 'premium' || userData.subscription === 'Premium')) {
+                alert('ERRORE: Utente Premium rilevato! Non dovresti essere qui.');
+                closeRentModal();
+                return;
+            }
+
+            confirmRentButton.disabled = true;
+            confirmRentButton.textContent = 'Elaborazione...';
+
+            fetch(`/api/rent/${movieId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Film noleggiato con successo!');
+                    closeRentModal();
+                    updateActionButtons(); // aggiorna i pulsanti
+                } else {
+                    alert('Errore durante il noleggio: ' + data.error);
+                }
+            })
+            .catch(error => {
+                alert('Si è verificato un errore durante il noleggio.');
+            })
+            .finally(() => {
+                confirmRentButton.disabled = false;
+                confirmRentButton.textContent = 'Conferma Noleggio';
+            });
+        }
+
+        // Inizializza la pagina
+        document.addEventListener('DOMContentLoaded', () => {
+            // forza chiusura del modal di noleggio se aperto
+            const rentModal = document.getElementById('rentModal');
+            if (rentModal) {
+                rentModal.classList.add('hidden');
+                rentModal.style.display = 'none'; // protezione aggiuntiva
+            }
+
+            // forza chiusura del modal di noleggio dopo 100ms per evitare glitch
+            setTimeout(() => {
+                const rentModal = document.getElementById('rentModal');
+                if (rentModal && (!rentModal.classList.contains('hidden') || rentModal.style.display !== 'none')) {
+                    rentModal.classList.add('hidden');
+                    rentModal.style.display = 'none';
+                }
+            }, 100);
+            
+            // ottieni l'ID del film dalla URL
+            const urlParts = window.location.pathname.split('/');
+            movieId = urlParts[urlParts.length - 1];
+              // Carica i dati in parallelo ma aggiorna i pulsanti solo quando entrambi sono pronti
+            checkUserStatus();
+            loadMovieDetails();
+            
+            // eventi per i pulsanti del modal di noleggio
+            if (cancelRentButton) cancelRentButton.addEventListener('click', closeRentModal);
+            if (confirmRentButton) confirmRentButton.addEventListener('click', rentMovie);
+            
+            // protezione per il modal di noleggio
+            window.openRentModal = openRentModal;
+            // Attiva il blocco del modal di emergenza
+            blockUnauthorizedModalDisplay();
+
+            // trailer click fix
+            forceTrailerClickability();
+        });
+        
+        // EMERGENCY TRAILER FIX: Forza clickabilità trailer
+        function forceTrailerClickability() {
+            const trailerFrame = document.getElementById('trailerFrame');
+            if (trailerFrame) {
+                // Applica fix CSS dinamicamente
+                trailerFrame.style.position = 'relative';
+                trailerFrame.style.zIndex = '999999';
+                trailerFrame.style.pointerEvents = 'auto';
+                trailerFrame.style.border = 'none';
+                trailerFrame.style.background = 'transparent';
+                
+                // Fix anche il container
+                const container = trailerFrame.parentElement;
+                if (container) {
+                    container.style.position = 'relative';
+                    container.style.zIndex = '999998';
+                    container.style.pointerEvents = 'auto';
+                    container.style.isolation = 'isolate';
+                }
+            }
+            
+            // Applica fix a tutti gli iframe YouTube
+            const youtubeFrames = document.querySelectorAll('iframe[src*="youtube"]');
+            youtubeFrames.forEach(frame => {
+                frame.style.position = 'relative';
+                frame.style.zIndex = '999999';
+                frame.style.pointerEvents = 'auto';
+                frame.style.border = 'none';
+                
+                const parent = frame.parentElement;
+                if (parent) {
+                    parent.style.pointerEvents = 'auto';
+                    parent.style.zIndex = '999998';
+                }
+            });
+        }
+        
+        // Osserva cambiamenti nel DOM per riapplicare il fix
+        const observer = new MutationObserver(() => {
+            forceTrailerClickability();
+        });
+        
+        // Avvia l'osservazione quando il DOM è pronto
+        document.addEventListener('DOMContentLoaded', () => {
+            const body = document.body;
+            observer.observe(body, { 
+                childList: true, 
+                attributes: true, 
+                subtree: true 
+            });
+        });
+    </script>
+</body>
+</html>

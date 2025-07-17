@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abbonamento Attivato - CineBinge</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/subscription.css">
+</head>
+<body class="bg-black text-white min-h-screen flex flex-col subscription-body">
+<header class="bg-gradient-to-b from-black to-transparent w-full z-50 top-0 left-0 py-6">
+    <div class="container mx-auto px-4 flex justify-between items-center">
+        <a href="/">
+            <img src="/logo.png" alt="CineBinge" class="w-32" />
+        </a>
+        <a href="/dashboard" class="bg-red-600 text-white px-6 py-2 rounded-md hover:bg-red-700 transition-colors font-semibold">
+            Dashboard
+        </a>
+    </div>
+</header>
+
+<main class="flex-grow flex items-center justify-center py-8 relative">
+    <!-- Movie reel decoration left -->
+    <div class="movie-reel fixed left-0 top-0 w-32 h-full opacity-20"></div>
+    <!-- Movie reel decoration right -->
+    <div class="movie-reel fixed right-0 top-0 w-32 h-full opacity-20"></div>
+      <div class="success-container max-w-2xl w-full mx-4 rounded-2xl p-8">
+        <div class="text-center">
+            <!-- Icona di successo -->
+            <div class="flex justify-center mb-6">
+                <div class="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center">
+                    <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                </div>
+            </div>
+            
+            <h1 class="text-4xl font-bold text-white mb-4">Abbonamento Attivato con Successo!</h1>
+            <p class="text-xl mb-8 text-gray-300">Grazie per esserti abbonato a CineBinge Premium.</p>
+            
+            <!-- Dettagli dell'abbonamento -->
+            <div class="bg-gradient-to-b from-gray-700 to-gray-800 rounded-lg p-6 mb-8">
+                <h2 class="text-xl font-semibold mb-4 text-red-500">Dettagli dell'abbonamento</h2>
+                <div class="space-y-3 text-gray-300 text-left">
+                    <div class="flex justify-between">
+                        <span><strong>Piano:</strong></span>
+                        <span class="text-white">Premium</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span><strong>Prezzo:</strong></span>
+                        <span class="text-white">€14.99/mese</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span><strong>Stato:</strong></span>
+                        <span class="text-white">Attivo</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span><strong>Prossimo rinnovo:</strong></span>
+                        <span class="text-white" id="renewalDate">11 luglio 2025</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Vantaggi inclusi -->
+            <div class="text-center mb-8">
+                <p class="text-gray-300 mb-6">Il tuo abbonamento Premium è ora attivo. Puoi iniziare a godere di tutti i vantaggi inclusi:</p>
+                <ul class="text-left list-disc list-inside space-y-2 text-gray-300 max-w-lg mx-auto">
+                    <li>Accesso illimitato a tutto il catalogo</li>
+                    <li>Streaming in HD e 4K dove disponibile</li>
+                    <li>Nessuna pubblicità</li>
+                    <li>Download per la visione offline</li>
+                </ul>
+            </div>
+            
+            <!-- Pulsante di azione -->
+            <div class="mt-8">
+                <a href="/browse" class="w-full bg-red-600 text-white py-3 px-6 rounded-md hover:bg-red-700 transition-colors font-semibold text-lg inline-block">
+                    Esplora il catalogo
+                </a>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+<footer class="bg-gradient-to-t from-black to-gray-800 py-3 mt-auto">
+    <div class="container mx-auto text-center">
+        <p class="text-gray-400 text-xs">© 2025 CineBinge. Tutti i diritti riservati.</p>
+        <div class="flex justify-center space-x-3 mt-2">
+            <a href="/about" class="text-xs text-white hover:text-red-500 transition-colors">Chi Siamo</a>
+            <a href="/about" class="text-xs text-white hover:text-red-500 transition-colors">Privacy</a>
+            <a href="/about" class="text-xs text-white hover:text-red-500 transition-colors">Termini e Condizioni</a>
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Imposta la data di rinnovo (30 giorni da oggi)
+    document.addEventListener('DOMContentLoaded', function() {
+        const today = new Date();
+        const renewalDate = new Date(today);
+        renewalDate.setDate(today.getDate() + 30);
+        
+        // Formatta la data in italiano
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('renewalDate').textContent = renewalDate.toLocaleDateString('it-IT', options);
+    });
+</script>
+</body>
+</html>
