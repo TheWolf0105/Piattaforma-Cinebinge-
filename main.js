@@ -43,8 +43,7 @@ app.use((req, res, next) => {
       req.path.includes('/my-rentals') || 
       req.path.includes('/watch') || 
       req.path.includes('/manage') ||
-      req.path.includes('/subscription') ||
-      req.path.includes('/browse')) {
+      req.path.includes('/subscription')) {
     res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate, private');
     res.setHeader('Pragma', 'no-cache');
     res.setHeader('Expires', '0');
@@ -100,7 +99,7 @@ app.use(
 
 // Middleware per verificare lo stato della sessione su pagine protette
 app.use((req, res, next) => {
-  const protectedPaths = ['/dashboard', '/my-rentals', '/watch', '/manage', '/browse'];
+  const protectedPaths = ['/dashboard', '/my-rentals', '/watch', '/manage'];
   const isProtectedPath = protectedPaths.some(path => req.path.startsWith(path));
   
   if (isProtectedPath && (!req.session || !req.session.user)) {
